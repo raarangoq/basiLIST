@@ -1,0 +1,108 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>BasiLIST</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+
+	<script type="text/javascript" src="player.js"></script>
+	<script type="text/javascript" src="preload.js"></script>
+	<script type="text/javascript" src="create.js"></script>
+	<script type="text/javascript" src="items.js"></script>
+	<script type="text/javascript" src="snake.js"></script>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+// Variables para controlar la entrada por teclado
+var DOWN_KEY = 40;
+var LEFT_KEY = 37;
+var RIGHT_KEY = 39;
+var SPACEBAR_KEY = 32;
+var UP_KEY = 38;
+
+// Los objetos del juego
+var fires;
+var health_bar;
+var heart = [];
+var pedestal;
+var player;
+var red_orb;
+var snake;
+var walls;
+
+
+var HEALTH_BAR_POSITION_X = 20;
+var HEALTH_BAR_POSITION_Y = 550;
+
+
+// fna bfask
+var text;
+
+
+// Variables para indicar los estados del jugador, y los estados del ataque
+var player_direction = "";
+var PLAYER_SPEED_WALKING = 150;
+var PLAYER_SPEED_ATTACKING = 50;
+var is_attacking = false;
+var player_speed = 150;
+var MAX_HEALTH = 100;
+var player_health = 50;
+// Se controla la duración del ataque mediante este variable
+var time_init_attack = 0;
+
+var keyboard;
+
+
+
+function update() {
+	// Las colisiones del juego
+	game.physics.arcade.collide(player, walls);
+	game.physics.arcade.overlap(player, red_orb, collectOrb);
+
+	// Las animaciones de fondo
+	fires.forEachAlive(fireAnimation);
+
+	// El movimiento del jugador
+	updatePlayer();
+
+	// Los items del juego
+	//updateItems();
+	red_orb.update();
+
+
+
+
+text.text = snake.direction;
+
+}
+
+
+
+
+function fireAnimation(fire){
+	fire.animations.play('fire');
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
