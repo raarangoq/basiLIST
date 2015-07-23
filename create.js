@@ -19,7 +19,8 @@ function create() {
 
 	// El orbe rojo
 	//addOrb();
-	red_orb = new Item();
+	p_orb = new Orb();
+	
 
 	// Se agrega la primer serpiente
 	addSnake();
@@ -50,10 +51,9 @@ function addFires(){
 		pedestal = fires.create(324 + i*284, 74, 'pedestal');
 		fire = fires.create(321 + i*284, 49, 'fire');
 		fire.animations.add('fire', [0, 1], 10, true);
+		fire.animations.play('fire');
 	}
 }
-
-
 
 // Se edicionan los muros al juego
 function addWalls(){

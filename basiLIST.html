@@ -5,10 +5,12 @@
 	<title>BasiLIST</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 
+	<script type="text/javascript" src="orb.js"></script>
 	<script type="text/javascript" src="player.js"></script>
+
 	<script type="text/javascript" src="preload.js"></script>
 	<script type="text/javascript" src="create.js"></script>
-	<script type="text/javascript" src="items.js"></script>
+	
 	<script type="text/javascript" src="snake.js"></script>
 
     <style type="text/css">
@@ -40,6 +42,8 @@ var red_orb;
 var snake;
 var walls;
 
+var p_orb;
+
 
 var HEALTH_BAR_POSITION_X = 20;
 var HEALTH_BAR_POSITION_Y = 550;
@@ -67,20 +71,18 @@ var keyboard;
 function update() {
 	// Las colisiones del juego
 	game.physics.arcade.collide(player, walls);
-	game.physics.arcade.overlap(player, red_orb, collectOrb);
 
-	// Las animaciones de fondo
-	fires.forEachAlive(fireAnimation);
+	if(	game.physics.arcade.overlap(player, p_orb.gameObject) ){
+		collectOrb(player, p_orb);
+	}
+
+
 
 	// El movimiento del jugador
 	updatePlayer();
 
 	// Los items del juego
 	//updateItems();
-	red_orb.update();
-
-
-
 
 text.text = snake.direction;
 
@@ -89,9 +91,6 @@ text.text = snake.direction;
 
 
 
-function fireAnimation(fire){
-	fire.animations.play('fire');
-}
 
 
 

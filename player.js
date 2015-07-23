@@ -69,8 +69,7 @@ function collectOrb(player, orb){
 	}
 	
 	//newRandomPosition(orb);
-	red_orb.newRandomPosition();
-
+	orb.newRandomPosition();
 }
 
 
