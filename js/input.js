@@ -1,13 +1,11 @@
 
 
-function addKeyProperties(keyboard){
+function addKeyboard(){
+	
 	// Atributos
-	keyboard.DOWN_KEY = 40;
-	keyboard.LEFT_KEY = 37;
-	keyboard.RIGHT_KEY = 39;
-	keyboard.SPACEBAR_KEY = 32;
-	keyboard.UP_KEY = 38;
-	keyboard.gameObject = game.input.keyboard;
+
+	// El teclado para procesar la entrada
+	keyboard = game.input.keyboard;	
 
 	// Metodos
 	keyboard.leftKey = leftKey;
@@ -19,7 +17,7 @@ function addKeyProperties(keyboard){
 
 
 function leftKey(){
-	if(this.isDown(this.LEFT_KEY)){
+	if(this.isDown(Phaser.Keyboard.LEFT) || this.isDown(Phaser.Keyboard.A)){
 		return true;
 	}
 	return false;
@@ -27,7 +25,7 @@ function leftKey(){
 
 
 function rightKey(){
-	if(this.isDown(this.RIGHT_KEY)){
+	if(this.isDown(Phaser.Keyboard.RIGHT) || this.isDown(Phaser.Keyboard.D)){
 		return true;
 	}
 	return false;
@@ -35,7 +33,7 @@ function rightKey(){
 
 
 function upKey(){
-	if(this.isDown(this.UP_KEY)){
+	if(this.isDown(Phaser.Keyboard.UP) || this.isDown(Phaser.Keyboard.W)){
 		return true;
 	}
 	return false;
@@ -43,7 +41,7 @@ function upKey(){
 
 
 function downKey(){
-	if(this.isDown(this.DOWN_KEY)){
+	if(this.isDown(Phaser.Keyboard.DOWN) || this.isDown(Phaser.Keyboard.S)){
 		return true;
 	}
 	return false;
@@ -51,7 +49,7 @@ function downKey(){
 
 
 function spaceKey(){
-	if(this.isDown(this.SPACEBAR_KEY)){
+	if(this.isDown(Phaser.Keyboard.SPACEBAR)){
 		return true;
 	}
 	return false;

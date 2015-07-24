@@ -5,16 +5,21 @@
 	<title>BasiLIST</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 
-	<script type="text/javascript" src="orb.js"></script>
-	<script type="text/javascript" src="player.js"></script>
-	<script type="text/javascript" src="gui.js"></script>
-	<script type="text/javascript" src="level1.js"></script>
-	<script type="text/javascript" src="input.js"></script>
+	<script type="text/javascript" src="js/orb.js"></script>
+	<script type="text/javascript" src="js/player.js"></script>
+	<script type="text/javascript" src="js/snake.js"></script>
 
-	<script type="text/javascript" src="preload.js"></script>
-	<script type="text/javascript" src="create.js"></script>
+	<script type="text/javascript" src="js/GUI/gui.js"></script>
+	<script type="text/javascript" src="js/GUI/health_bar.js"></script>
+
+
+	<script type="text/javascript" src="js/level1.js"></script>
+	<script type="text/javascript" src="js/input.js"></script>
+
+	<script type="text/javascript" src="js/preload.js"></script>
+	<script type="text/javascript" src="js/create.js"></script>
 	
-	<script type="text/javascript" src="snake.js"></script>
+	
 
     <style type="text/css">
         body {
@@ -56,19 +61,19 @@ var text;
 
 function update() {
 	// Las colisiones del juego
-	game.physics.arcade.collide(player.gameObject, level.walls);
+	game.physics.arcade.collide(player, level.walls);
 
-	if(	game.physics.arcade.overlap(player.gameObject, red_orb.gameObject) ){
+	if(	game.physics.arcade.overlap(player, red_orb) ){
 		player.collectOrb(red_orb);
 	}
 
 	// El movimiento del jugador
-	player.player_update();
+	player.updatePlayer();
 
 	// Los items del juego
 	//updateItems();
 
-text.text = snake.direction;
+text.text = player.health;
 
 }
 

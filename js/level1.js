@@ -1,24 +1,24 @@
 
-function Level(){
+function addLevel(){
 	// Se dá el tamaño del mundo del juego
 	game.world.setBounds(0, 0, 1200, 1000);
 	// Se habilita la física del juego
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	// el Fondo
-	this.gameObject = game.add.sprite(0, 0, 'ground');
+	level = game.add.sprite(0, 0, 'ground');
 
-	
-	this.walls = game.add.group();
-	this.fires = game.add.group();
+	level.walls = game.add.group();
+	level.fires = game.add.group();
 
 	// Funciones que se llaman al instanciar un Level
-	addFires(this);
-	addWalls(this);
+	addFires();
+	addWalls();
 }
 
 // Pequeñas animaciones de fuego sobre el muro superior
-function addFires(level){
+function addFires(){
 	var fire;
+	var pedestal;
 	for (var i=0; i<3; i++){
 		pedestal = level.fires.create(324 + i*284, 74, 'pedestal');
 		fire = level.fires.create(321 + i*284, 49, 'fire');
@@ -28,7 +28,7 @@ function addFires(level){
 }
 
 // Se edicionan los muros al juego
-function addWalls(level){	
+function addWalls(){	
 	level.walls.enableBody = true;
 
 	var wall = level.walls.create(0, 950, 'footwall');
