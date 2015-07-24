@@ -1,6 +1,6 @@
 
 function preload() {
-	// Cargar ambiente
+	// Cargar ambiente del nivel 1
 	game.load.image('ground', 'assets/pics/ground.png');
 	game.load.image('footwall', 'assets/pics/footwall.png');
 	game.load.image('upperwall', 'assets/pics/upperwall.png');
