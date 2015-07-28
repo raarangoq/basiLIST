@@ -19,22 +19,22 @@ function addSnakeSegment(previousSegment){
 	snake.target_x = '';
 	snake.target_y = '';
 	// Vector que indica la dirección en la que el objetivo se encuentra
-	snake.u = '';
-	snake.v = '',
+	snake.u = 0;
+	snake.v = 0,
 	// Objetivo temporal para el movimiento ondulante de la serpiente
-	snake.temporal_target_x = '';
-	snake.temporal_target_y = '';
+	snake.temporal_target_x = 200;
+	snake.temporal_target_y = 200;
 
 
 	// Metodos de la serpiente
 	snake.addSegment = addSegment;
-	snake.initSegmentPosition = initSegmentPosition;
 	snake.moveSnake = moveSnake;
-//	snake.playSnakeAnimation = playSnakeAnimation;
-	snake.playTailAnimation = playTailAnimation;
+	snake.playSnakeAnimation = playSnakeAnimation;
 	snake.resetDirection = resetDirection;
 	snake.setTarget = setTarget;
 	snake.setTemporalTarget = setTemporalTarget;
+	snake.setTemporalTargetBody = setTemporalTargetBody;
+	snake.setTemporalTargetHead = setTemporalTargetHead;
 	snake.targetAngle = targetAngle;
 	snake.updateSnake = updateSnake;	
 
@@ -44,7 +44,7 @@ function addSnakeSegment(previousSegment){
 	addSnakeAnimations(snake);		// Se agregan las animaciones al segmento
 
 
-	snake.setTarget();
+	//snake.setTarget();
 	return snake;
 }
 
@@ -102,33 +102,41 @@ function initSegmentPosition(segment){
 // nuevo
 function addSegment(){
 	// Si este segmento no es la cola, se avanza hasta llegar a ella
-	if(this.next != "") {
+	if(this.next != '') {
 		this.next.addSegment();
-		return;
 	}
+	else{
 	// Si este segmento es la cola, se crea un nuevo segmento despues de esta
-	this.next = addSnakeSegment(this);
+		this.next = addSnakeSegment(this);
+	}
 }
 
 // Ejecutar el movimiento mismo de la serpiente
 function moveSnake(){
-	// Si es la cabeza
-	if(this.previous == ""){
-		// Primero verificar si ya se cumplió el tiempo de giro para determinar un nuevo objetivo temporal
-		// Esto solo lo hace la cabeza 
-		if(game.time.time - this.time_init_twisting > this.TIME_TWISTING || 
-		   game.physics.arcade.distanceToXY(this,this.temporal_target_x,this.temporal_target_y) < 10 ){
-			this.setTemporalTarget();
-			this.time_init_twisting = game.time.time;
-		} 
-	}
-	// Si es el cuerpo, la function setTarget se encargará de definir como objetivo el anterior segmento
+	// Al alcanzar el objetivo o superar el tiempo de giro, se establece un nuevo movimiento 
+	if(game.time.time - this.time_init_twisting > this.TIME_TWISTING || 
+		game.physics.arcade.distanceToXY(this,this.temporal_target_x,this.temporal_target_y) < 5 ){
+		this.time_init_twisting = game.time.time;
+		this.setTemporalTarget();
+	} 
 	game.physics.arcade.moveToXY(this, this.temporal_target_x, this.temporal_target_y, this.speed);
+	if(this.next != '') this.next.moveSnake();
 }
 
-// Si es un segmento cola, se ejecuta su animación
-function playTailAnimation(direction){
-	this.animations.play('tail_' + direction);
+
+function playSnakeAnimation(){
+	if(this.previous == ''){
+		this.animations.play('head_' + this.direction);
+	}
+	else if(this.next == ''){
+		this.animations.play('tail_' + this.direction);
+	}
+	else{
+		this.animations.play('body');
+	}
+
+	if(this.next != '')
+		this.next.playSnakeAnimation();
 }
 
 // Al cambiar de dirección, se asigna el texto direccional del segmento
@@ -150,24 +158,32 @@ function resetDirection(x, y){
 // Si no es la cabeza, seguirá al segmento anterior
 function setTarget(){
 	// Cabeza
-	if(this.previous == ""){
+	if(this.previous == ''){
 		// Primer caso, seguir el orbe (solo si es la cabeza), es el objetivo final, se usan
 		// objetivos temporales para crear el movimiento ondulante de la serpiente
 		this.target_x = red_orb.body.x;
 		this.target_y = red_orb.body.y;
 		this.setTemporalTarget();
 	}
-	// Segmento, seguirá al anterior segmento
-	else{
-		this.temporal_target_x = this.previous.body.x;
-		this.temporal_target_y = this.previous.body.y;
-	}
+}
 
+
+function setTemporalTarget(){
+	if(this.previous == '') this.setTemporalTargetHead();
+	else this.setTemporalTargetBody();
+
+	if(this.next != '') this.next.setTemporalTargetBody();
+}
+
+
+function setTemporalTargetBody(){
+	this.temporal_target_x = this.previous.body.x;
+	this.temporal_target_y = this.previous.body.y;
 }
 
 // Para dar un movimiento ondulante, la cabeza se moverá a través de objetivos temporales
 // camino al verdadero objetivo
-function setTemporalTarget(){
+function setTemporalTargetHead(){
 	// Se establece el vector director (u, v) para determinar la dirección actual de la cabeza
 	var u = 0;
 	var v = 0;
@@ -227,7 +243,7 @@ function setTemporalTarget(){
 	var x_distance = Math.abs(this.body.x - this.target_x);
 	var y_distance = Math.abs(this.body.y - this.target_y);
 
-	if( game.physics.arcade.distanceToXY(this,this.target_x,this.target_y) > 200 ){
+	if( game.physics.arcade.distanceToXY(this, this.target_x, this.target_y) > 100 ){
 		x_distance = 300;
 		y_distance = 300;
 	}
@@ -247,16 +263,6 @@ function setTemporalTarget(){
 		this.temporal_target_y = this.body.y + y2*y_distance;
 		this.resetDirection(x2, y2);
 	}
-
-
-texta.text = 'Objetivo x:' + this.temporal_target_x + "\nObjetivo y:" + this.temporal_target_y
-	+ '\nAngulo PI/2: ' +  Math.PI/2
-	+ '\nTarget: ' + this.target_x + "  " + this.target_y
-	+ '\nAngulo 1: ' + angle0 + '\nAngulo 2: ' + angle1 + '\nAngulo 3: ' + angle2
-	+ '\n' + feasible0 + '   ' + feasible1 + '   ' + feasible2
-	+ '\n' + selection
-	+ '\nDirección: ' + this.direction;
-
 }
 
 
@@ -276,5 +282,5 @@ function targetAngle(u, v){
 
 function updateSnake(){
 	this.moveSnake();
-//	this.playSnakeAnimation();
+	this.playSnakeAnimation();
 }

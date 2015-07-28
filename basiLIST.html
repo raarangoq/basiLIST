@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
 	<title>BasiLIST</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<script type="text/javascript" src="js/phaser.js"></script>
 
 	<script type="text/javascript" src="js/orb.js"></script>
 	<script type="text/javascript" src="js/player.js"></script>
@@ -94,13 +95,10 @@ texta = game.add.text(20, 60, 'inicio', { fontSize: '32px', fill: '#000'});
 texta.fixedToCamera = true;
 
 	// Se agrega la primer serpiente
-	snakeHeads[0] = addSnakeSegment("");
+	snakeHeads[0] = addSnakeSegment('');
+	snakeHeads[0].addSegment();
+	snakeHeads[0].setTarget();
 
-
-
-	//snakeHeads[0].addSegment();
-	//snakeHeads[0].addSegment();
-	//snakeHeads[0].addSegment();
 
 	// Las interfaces del juego
 	gui = new GUI();
@@ -108,7 +106,7 @@ texta.fixedToCamera = true;
 
 	game.camera.follow(player); // La camara del juego seguirá al jugador
 
-
+text.text = "cargando...";
 }
 
 
@@ -116,29 +114,49 @@ texta.fixedToCamera = true;
 function update() {
 	// Las colisiones del juego
 	game.physics.arcade.collide(player, level.walls);
-	for(var i=0; i<snakeHeads.length; i++)	game.physics.arcade.collide(snakeHeads[i], level.walls);
+	for(var i=0; i<snakeHeads.length; i++){
+		game.physics.arcade.collide(snakeHeads[i], level.walls);
+	}
+
 
 	// Solapamientos entre objetos
-	if(	game.physics.arcade.overlap(player, red_orb) )	player.collectOrb(red_orb);
-	for(var i=0; i<snakeHeads.length; i++) 
-		if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
-			//snakeHeads[i].addSegment();
-			red_orb.newRandomPosition();
-			snakeHeads[i].setTarget();
+	if(	game.physics.arcade.overlap(player, red_orb) )	{
+		player.collectOrb(red_orb);
+		allTargets();
+	}
 
-			
+	for(var i=0; i<snakeHeads.length; i++){ 
+		if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
+			red_orb.newRandomPosition();
+			snakeHeads[i].addSegment();
+if(snakeHeads.length < 2)		
+snakeHeads.push(addSnakeSegment(''));
+			allTargets();
 		}
+	}
 
 	// El movimiento del jugador
 	player.updatePlayer();
-	snakeHeads[0].updateSnake();
-	
-text.text = snakeHeads[0].body.x + " - " + snakeHeads[0].body.y; 
+	for(var i=0; i<snakeHeads.length; i++) {
+		snakeHeads[i].updateSnake();
+	}
 
+if(snakeHeads[1] != null){
+texta.text = 'Posición: ' + snakeHeads[1].body.x + ' ' + snakeHeads[1].body.y
+			+ '\nTarget: ' + snakeHeads[1].target_x + ' ' + snakeHeads[1].target_y
+			+ '\nTemporal target: ' + snakeHeads[1].temporal_target_x + ' ' + snakeHeads[1].temporal_target_y
+			+ '\nSpeed:' + snakeHeads[1].speed 
+			+ '\nDirección: ' + snakeHeads[1].direction
+			+ '\nTiempo inicio giro: ' + snakeHeads[1].time_init_twisting;
+}
 
 }
 
-
+function allTargets(){
+	for(var i=0; i<snakeHeads.length; i++){
+		snakeHeads[i].setTarget();
+	}
+}
 
 
 
