@@ -15,9 +15,6 @@
 
 	<script type="text/javascript" src="js/level1.js"></script>
 	<script type="text/javascript" src="js/input.js"></script>
-
-	<script type="text/javascript" src="js/preload.js"></script>
-	<script type="text/javascript" src="js/create.js"></script>
 	
 	
 
@@ -42,38 +39,102 @@ var keyboard;
 // Los objetos del juego
 var red_orb;
 var player;
-var snake;
+
 var gui;
 var level;
 
 
 
-
+var snakeHeads = [];
 
 
 // fna bfask
 var text;
+var texta;
 
 
 
+function preload() {
+	// Cargar ambiente del nivel 1
+	game.load.image('ground', 'assets/pics/ground.png');
+	game.load.image('footwall', 'assets/pics/footwall.png');
+	game.load.image('upperwall', 'assets/pics/upperwall.png');
+	game.load.image('lateralwall', 'assets/pics/lateralwall.png');
+	game.load.image('lateralwall2', 'assets/pics/lateralwall2.png');
+	game.load.spritesheet('fire', 'assets/pics/fire.png', 32, 32);
+	game.load.image('pedestal', 'assets/pics/pedestal.png');
+
+	// La imagen del jugador
+	game.load.spritesheet('player', 'assets/pics/player.png', 70, 70);
+	// Barra de salud del jugador
+	game.load.image('healthbar', 'assets/pics/healthbar.png');
+	game.load.spritesheet('heart', 'assets/pics/heart.png', 14, 16);
+
+	// Los items del juego
+	game.load.spritesheet('redorb', 'assets/pics/redorb.png', 24, 32);
+
+	// La serpiente principal
+	game.load.spritesheet('snake', 'assets/pics/snake.png', 50, 50);
+}
+
+
+function create() {
+
+	addLevel();
+	addKeyboard();
+	// Pueden existir varios orbes al mismo tiempo
+	red_orb = addOrb();
+	// El jugador
+	addPlayer();
+
+
+text = game.add.text(20, 20, 'inicio', { fontSize: '32px', fill: '#000'});
+text.fixedToCamera = true;
+texta = game.add.text(20, 60, 'inicio', { fontSize: '32px', fill: '#000'});
+texta.fixedToCamera = true;
+
+	// Se agrega la primer serpiente
+	snakeHeads[0] = addSnakeSegment("");
+
+
+
+	//snakeHeads[0].addSegment();
+	//snakeHeads[0].addSegment();
+	//snakeHeads[0].addSegment();
+
+	// Las interfaces del juego
+	gui = new GUI();
+	gui.updateHealthBar(player.health);
+
+	game.camera.follow(player); // La camara del juego seguirá al jugador
+
+
+}
 
 
 
 function update() {
 	// Las colisiones del juego
 	game.physics.arcade.collide(player, level.walls);
+	for(var i=0; i<snakeHeads.length; i++)	game.physics.arcade.collide(snakeHeads[i], level.walls);
 
-	if(	game.physics.arcade.overlap(player, red_orb) ){
-		player.collectOrb(red_orb);
-	}
+	// Solapamientos entre objetos
+	if(	game.physics.arcade.overlap(player, red_orb) )	player.collectOrb(red_orb);
+	for(var i=0; i<snakeHeads.length; i++) 
+		if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
+			//snakeHeads[i].addSegment();
+			red_orb.newRandomPosition();
+			snakeHeads[i].setTarget();
+
+			
+		}
 
 	// El movimiento del jugador
 	player.updatePlayer();
+	snakeHeads[0].updateSnake();
+	
+text.text = snakeHeads[0].body.x + " - " + snakeHeads[0].body.y; 
 
-	// Los items del juego
-	//updateItems();
-
-text.text = player.health;
 
 }
 

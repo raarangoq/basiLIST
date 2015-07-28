@@ -1,7 +1,7 @@
 
 function addPlayer(){
 	// El objeto player en si mismo es un objeto sprite
-	player = game.add.sprite(100, 100, 'player');
+	player = game.add.sprite(500, 500, 'player');
 	game.physics.enable(player, Phaser.Physics.ARCADE);
 	player.body.colliderWorldBounds = true;
 	player.body.setSize(30, 34, 19, 17);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
