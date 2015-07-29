@@ -97,7 +97,6 @@ texta.fixedToCamera = true;
 	// Se agrega la primer serpiente
 	snakeHeads[0] = addSnakeSegment('');
 	snakeHeads[0].addSegment();
-	snakeHeads[0].setTarget();
 
 
 	// Las interfaces del juego
@@ -112,11 +111,14 @@ text.text = "cargando...";
 
 
 function update() {
+
 	// Las colisiones del juego
 	game.physics.arcade.collide(player, level.walls);
 	for(var i=0; i<snakeHeads.length; i++){
-		game.physics.arcade.collide(snakeHeads[i], level.walls);
+		collideSnake(snakeHeads[i]);
 	}
+
+
 
 
 	// Solapamientos entre objetos
@@ -124,41 +126,44 @@ function update() {
 		player.collectOrb(red_orb);
 		allTargets();
 	}
-
+	// Si alguna de las serpientes atrapan algún orbe
 	for(var i=0; i<snakeHeads.length; i++){ 
 		if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
-			red_orb.newRandomPosition();
-			snakeHeads[i].addSegment();
-if(snakeHeads.length < 2)		
-snakeHeads.push(addSnakeSegment(''));
-			allTargets();
+			snakeHeads[i].collectOrbSnake(red_orb);
 		}
 	}
 
-	// El movimiento del jugador
+
+
 	player.updatePlayer();
 	for(var i=0; i<snakeHeads.length; i++) {
 		snakeHeads[i].updateSnake();
 	}
 
-if(snakeHeads[1] != null){
-texta.text = 'Posición: ' + snakeHeads[1].body.x + ' ' + snakeHeads[1].body.y
-			+ '\nTarget: ' + snakeHeads[1].target_x + ' ' + snakeHeads[1].target_y
-			+ '\nTemporal target: ' + snakeHeads[1].temporal_target_x + ' ' + snakeHeads[1].temporal_target_y
-			+ '\nSpeed:' + snakeHeads[1].speed 
-			+ '\nDirección: ' + snakeHeads[1].direction
-			+ '\nTiempo inicio giro: ' + snakeHeads[1].time_init_twisting;
-}
+
+
+
+if(snakeHeads[0] != null){
+texta.text = 'Posición: ' + snakeHeads[0].next.body.x 
+			+ '\n' + snakeHeads[0].next.body.y
+			+ '\nTarget: ' + snakeHeads[0].next.target_x + ' ' + snakeHeads[0].next.target_y
+			+ '\nTemporal target: ' + snakeHeads[0].next.temporal_target_x 
+			+ '\n' + snakeHeads[0].next.temporal_target_y
+			+ '\nSpeed:' + snakeHeads[0].next.speed 
+			+ '\nDirección: ' + snakeHeads[0].next.direction
+			+ '\nTiempo inicio giro: ' + snakeHeads[0].next.time_init_twisting;
+	}
 
 }
 
-function allTargets(){
-	for(var i=0; i<snakeHeads.length; i++){
-		snakeHeads[i].setTarget();
+
+function collideSnake(segment){
+	game.physics.arcade.collide(segment, level.walls);
+
+	if(segment.next != ''){
+		collideSnake(segment.next);
 	}
 }
-
-
 
 
 
