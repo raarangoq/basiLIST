@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="js/phaser.js"></script>
 
 	<script type="text/javascript" src="js/orb.js"></script>
+	<script type="text/javascript" src="js/attack.js"></script>
 	<script type="text/javascript" src="js/player.js"></script>
 	<script type="text/javascript" src="js/snake.js"></script>
 
@@ -30,7 +31,7 @@
 <script type="text/javascript">
 
 // Se especifica el tamaño de ventana de 800x600
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 
 // Variables para controlar la entrada por teclado
 var keyboard;
@@ -40,6 +41,7 @@ var keyboard;
 // Los objetos del juego
 var red_orb;
 var player;
+//var attack;
 
 var gui;
 var level;
@@ -67,6 +69,7 @@ function preload() {
 
 	// La imagen del jugador
 	game.load.spritesheet('player', 'assets/pics/player.png', 70, 70);
+
 	// Barra de salud del jugador
 	game.load.image('healthbar', 'assets/pics/healthbar.png');
 	game.load.spritesheet('heart', 'assets/pics/heart.png', 14, 16);
@@ -76,6 +79,9 @@ function preload() {
 
 	// La serpiente principal
 	game.load.spritesheet('snake', 'assets/pics/snake.png', 50, 50);
+
+	// El ataque del jugador
+	game.load.spritesheet('attack','assets/pics/attackzone.png', 30, 30);
 }
 
 
@@ -97,6 +103,9 @@ texta.fixedToCamera = true;
 	// Se agrega la primer serpiente
 	snakeHeads[0] = addSnakeSegment('');
 	snakeHeads[0].addSegment();
+
+	snakeHeads[1] = addSnakeSegment('');
+	snakeHeads[1].addSegment();
 
 
 	// Las interfaces del juego
@@ -123,8 +132,8 @@ function update() {
 
 	// Solapamientos entre objetos
 	if(	game.physics.arcade.overlap(player, red_orb) )	{
-		player.collectOrb(red_orb);
-		allTargets();
+		player.collectOrbPlayer(red_orb);
+		setAllTargetsSnake();
 	}
 	// Si alguna de las serpientes atrapan algún orbe
 	for(var i=0; i<snakeHeads.length; i++){ 
@@ -141,24 +150,21 @@ function update() {
 	}
 
 
-
-
-if(snakeHeads[0] != null){
-texta.text = 'Posición: ' + snakeHeads[0].next.body.x 
-			+ '\n' + snakeHeads[0].next.body.y
-			+ '\nTarget: ' + snakeHeads[0].next.target_x + ' ' + snakeHeads[0].next.target_y
-			+ '\nTemporal target: ' + snakeHeads[0].next.temporal_target_x 
-			+ '\n' + snakeHeads[0].next.temporal_target_y
-			+ '\nSpeed:' + snakeHeads[0].next.speed 
-			+ '\nDirección: ' + snakeHeads[0].next.direction
-			+ '\nTiempo inicio giro: ' + snakeHeads[0].next.time_init_twisting;
-	}
-
 }
 
 
 function collideSnake(segment){
 	game.physics.arcade.collide(segment, level.walls);
+
+	// No se debe permitir que el serpiente infrinja daño a un jugador que no puede moverse
+	if(player.canMove)
+		game.physics.arcade.collide(segment, player, snakeHitsPlayer);
+		
+	// Cuando el ataque impacta a un segmento de serpiente	
+	if(player.is_attacking)
+		if( game.physics.arcade.overlap(segment, player.attack) )
+			segment.destroySegment();
+
 
 	if(segment.next != ''){
 		collideSnake(segment.next);
@@ -166,10 +172,22 @@ function collideSnake(segment){
 }
 
 
+function snakeHitsPlayer(segment, player){
+	player.hitPlayer(segment);
+}
 
 
 
 
+
+function render(){
+	
+		texta.text = snakeHeads[0].target 
+				+ '\n X: ' + snakeHeads[0].target_x
+				+ '\n Y: ' + snakeHeads[0].target_y ;
+
+	
+}
 
 
 

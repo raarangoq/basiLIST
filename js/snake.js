@@ -9,7 +9,7 @@ function addSnakeSegment(previousSegment){
 	game.physics.enable(snake, Phaser.Physics.ARCADE);
 	snake.body.colliderWorldBounds = true;
 	snake.body.setSize(32, 32, 9, 9);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
-
+	snake.body.immovable = true;
 
 	// Atributos
 	snake.direction = 'front';
@@ -20,6 +20,7 @@ function addSnakeSegment(previousSegment){
 	snake.previous = previousSegment;
 	snake.next = '';
 	// Apuntador al objetivo de este segmento
+	snake.target = 'orb';
 	snake.target_x = '';
 	snake.target_y = '';
 	// Vector que indica la dirección en la que el objetivo se encuentra
@@ -33,10 +34,16 @@ function addSnakeSegment(previousSegment){
 	// Metodos de la serpiente
 	snake.addSegment = addSegment;
 	snake.collectOrbSnake = collectOrbSnake;
+	snake.destroySegment = destroySegment;
+	snake.destroyHead = destroyHead;
+	snake.destroyBody = destroyBody;
+	snake.destroyTail = destroyTail;
+	snake.distancePlayer = distancePlayer;
+	snake.distanceOrb = distanceOrb;
 	snake.moveSnake = moveSnake;
 	snake.playSnakeAnimation = playSnakeAnimation;
 	snake.resetDirection = resetDirection;
-	snake.setNextTarget = setNextTarget;
+	snake.setNextSegmentTarget = setNextSegmentTarget;
 	snake.setTarget = setTarget;
 	snake.setTemporalTarget = setTemporalTarget;
 	snake.setTemporalTargetBody = setTemporalTargetBody;
@@ -48,7 +55,7 @@ function addSnakeSegment(previousSegment){
 	// Solo se invocan estos métodos al crear un segmento de serpiente
 	addSnakeAnimations(snake);		// Se agregan las animaciones al segmento
 
-	snake.setTarget();
+	snake.setTarget(snake.target);
 	return snake;
 }
 
@@ -84,9 +91,9 @@ function initSegmentPositionY(previousSegment){
 	return previousSegment.body.y;
 }
 
+
 //*******************************************************************************************//
 // Metodos de cada objeto serpiente
-
 
 // Funcion para agregar un segmento a una serpiente, primero irá hasta la cola, y allí agregará el segmento 
 // nuevo
@@ -105,14 +112,64 @@ function addSegment(){
 function collectOrbSnake(orb){
 	orb.newRandomPosition();
 	this.addSegment();
-	setAllTargets();
+	setAllTargetsSnake();
+}
+
+
+function destroySegment(){
+	if(this.previous == '')
+		this.destroyHead();
+	else if(this.next != '')
+		this.destroyBody();
+	else
+		this.destroyTail();
+}
+
+
+function destroyBody(){
+	this.next.previous = '';
+	this.previous.next = '';
+	snakeHeads.push( this.next );
+
+	setAllTargetsSnake();
+	this.destroy();
+}
+
+function destroyHead(){
+	this.next.previous = '';
+
+	var pos = snakeHeads.indexOf(this);
+	snakeHeads.splice(pos ,1);
+
+	if(this.next != ''){
+		snakeHeads.push( this.next );
+		setAllTargetsSnake();
+	}
+
+	this.destroy();
+}
+
+function destroyTail(){
+	this.previous.next = '';
+	this.destroy();
+}
+
+
+function distancePlayer(){
+	return game.physics.arcade.distanceBetween(this, player);
+}
+
+function distanceOrb(){
+	return game.physics.arcade.distanceBetween(this, red_orb);
 }
 
 
 // Ejecutar el movimiento mismo de la serpiente
 function moveSnake(){
-	if(game.time.time - this.time_init_twisting > 250) this.setNextTarget();
 
+	// Para asegurar que un segmento siga al siguiente, se establece el objetivo del segmento siguiente constantemente
+	if( game.time.time - this.time_init_twisting > this.TIME_TWISTING/3 ) 
+		this.setNextSegmentTarget();
 
 	// Al alcanzar el objetivo o superar el tiempo de giro, se establece un nuevo movimiento 
 	if(game.time.time - this.time_init_twisting > this.TIME_TWISTING || 
@@ -120,8 +177,6 @@ function moveSnake(){
 		this.time_init_twisting = game.time.time;
 		this.setTemporalTarget();
 	} 
-
-
 
 	game.physics.arcade.moveToXY(this, this.temporal_target_x, this.temporal_target_y, this.speed);
 	if(this.next != '') this.next.moveSnake();
@@ -155,7 +210,7 @@ function resetDirection(x, y){
 }
 
 
-function setNextTarget(){
+function setNextSegmentTarget(){
 	if(this.next != ''){
 		this.next.target_x = this.body.x;
 		this.next.target_y = this.body.y;
@@ -165,13 +220,26 @@ function setNextTarget(){
 // Se fija el objetivo del segmento de serpiente
 // Puede ser el orbe, el jugador, o un punto al azar (estos tres casos si es la cabeza)
 // Si no es la cabeza, seguirá al segmento anterior
-function setTarget(){
+function setTarget(target){
 	// Cabeza
 	if(this.previous == ''){
+
+		this.target = target;
+
 		// Primer caso, seguir el orbe (solo si es la cabeza), es el objetivo final, se usan
 		// objetivos temporales para crear el movimiento ondulante de la serpiente
-		this.target_x = red_orb.body.x;
-		this.target_y = red_orb.body.y;
+		if(target == 'orb'){
+			this.target_x = red_orb.body.x;
+			this.target_y = red_orb.body.y;
+		}
+		else if(target == 'player'){
+			this.target_x = player.body.x;
+			this.target_y = player.body.y;
+		}
+		else if(target == 'random'){
+			this.target_x = 200 + Math.abs( Math.random()*800 );
+			this.target_y = 200 + Math.abs( Math.random()*600 );
+		}
 		this.setTemporalTarget();
 	}
 }
@@ -181,7 +249,7 @@ function setTemporalTarget(){
 	if(this.previous == '') this.setTemporalTargetHead();
 	else this.setTemporalTargetBody();
 
-	this.setNextTarget();
+	this.setNextSegmentTarget();
 }
 
 
@@ -293,6 +361,14 @@ function targetAngle(u, v){
 
 
 function updateSnake(){
+
+	if(this.previous == '' && 
+		game.physics.arcade.distanceToXY(this,this.target_x,this.target_y) < 20 &&
+		( this.target == 'random' || this.target == 'player' ) ){
+			this.setTarget(this.target);
+	}
+
+
 	this.moveSnake();
 	this.playSnakeAnimation();
 }
@@ -303,8 +379,51 @@ function updateSnake(){
 //********************************************************************************************************
 // Metodos "estáticos"
 
-function setAllTargets(){
+function setAllTargetsSnake(){
+
+	var snakeToOrb = selectSnakeWithOrbTarget();
+	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb);
+
+	snakeHeads[snakeToOrb].setTarget('orb');
+	if(snakeToPlayer >= 0)
+		snakeHeads[snakeToPlayer].setTarget('player');
+
+	if(snakeHeads.length > 2)
 	for(var i=0; i<snakeHeads.length; i++){
-		snakeHeads[i].setTarget();
+		if( i != snakeToOrb && i != snakeToPlayer)
+			snakeHeads[i].setTarget('random');
+	}	
+
+
+}
+
+
+function selectSnakeWithOrbTarget(){
+	var snakeIndex = 0;
+	var minDistance = snakeHeads[0].distanceOrb();
+
+	for(var i=1; i<snakeHeads.length; i++){ 
+		var actualDistance = snakeHeads[i].distanceOrb();
+		if(actualDistance < minDistance ){
+			snakeIndex = i;
+			minDistance = actualDistance;
+		}
 	}
+
+	return snakeIndex;
+}
+
+function selectSnakeWithPlayerTarget(snakeToOrb){
+	var snakeIndex = -1;
+	var minDistance = 2000;
+
+	for(var i=0; i<snakeHeads.length; i++){ 
+		var actualDistance = snakeHeads[i].distancePlayer();
+		if(actualDistance < minDistance &&  i != snakeToOrb){
+			snakeIndex = i;
+			minDistance = actualDistance;
+		}
+	}
+
+	return snakeIndex;
 }
