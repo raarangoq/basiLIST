@@ -380,6 +380,8 @@ function updateSnake(){
 // Metodos "estáticos"
 
 function setAllTargetsSnake(){
+if(snakeHeads.length <= 0) return;
+
 
 	var snakeToOrb = selectSnakeWithOrbTarget();
 	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb);

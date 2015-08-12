@@ -13,6 +13,7 @@ function addKeyboard(){
 	keyboard.upKey = upKey;
 	keyboard.downKey = downKey;
 	keyboard.spaceKey = spaceKey;
+	keyboard.enterKey = enterKey;
 }
 
 
@@ -50,6 +51,14 @@ function downKey(){
 
 function spaceKey(){
 	if(this.isDown(Phaser.Keyboard.SPACEBAR)){
+		return true;
+	}
+	return false;
+}
+
+
+function enterKey(){
+	if(this.isDown(Phaser.Keyboard.ENTER)){
 		return true;
 	}
 	return false;
