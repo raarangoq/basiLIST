@@ -1,15 +1,14 @@
 
 function addSnakeSegment(previousSegment){
 	
-
 	var x = initSegmentPositionX(previousSegment);
 	var y = initSegmentPositionY(previousSegment);
 	// El objeto serpiente en sí mismo
 	var snake = game.add.sprite(x, y, 'snake');
 	game.physics.enable(snake, Phaser.Physics.ARCADE);
 	snake.body.colliderWorldBounds = true;
-	snake.body.setSize(32, 32, 9, 9);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
-	snake.body.immovable = true;
+	snake.body.setSize(32, 32, 9, 9);   // Reajustar el collider de la serpiente, para que solo cubra el cuerpo
+	//snake.body.immovable = true;
 
 	// Atributos
 	snake.direction = 'front';
@@ -78,16 +77,15 @@ function initSegmentPositionX(previousSegment){
 	// Se inicializa la posición según si es un segmento nuevo o una cabeza
 
 	// Si es una cabeza aparecerá en un lugar al azar de la parte superior de la sala
-	if(previousSegment == ''){
-		return 200 + Math.round(Math.random()*600);
-	}
+	if(previousSegment == '')
+		return 200 +  ((Math.random() * (game.world.width - 400)) / 2);
 	// Si es un segmento cola, se agrega según la posición del segmento anterior
 	return previousSegment.body.x;
 }
 
 function initSegmentPositionY(previousSegment){
 	if(previousSegment == '')
-		return 200 + Math.round(Math.random()*300);
+		return 200 +  (Math.random() * (game.world.height - 400));
 	return previousSegment.body.y;
 }
 
@@ -237,8 +235,8 @@ function setTarget(target){
 			this.target_y = player.body.y;
 		}
 		else if(target == 'random'){
-			this.target_x = 200 + Math.abs( Math.random()*800 );
-			this.target_y = 200 + Math.abs( Math.random()*600 );
+			this.target_x = 200 +  (Math.random() * (game.world.width - 400));
+			this.target_y = 200 +  (Math.random() * (game.world.height - 400));
 		}
 		this.setTemporalTarget();
 	}

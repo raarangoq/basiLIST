@@ -1,7 +1,10 @@
 
 function addOrb(){
 	// Atributos
-	var orb = game.add.sprite(1000, 800, 'redorb');
+	var x_pos = game.world.width - 400;
+	var y_pos = game.world.height - 200;
+
+	var orb = game.add.sprite(x_pos, y_pos, 'redorb');
 
 	// Configuración del cuerpo físico
 	game.physics.enable(orb, Phaser.Physics.ARCADE);
@@ -20,6 +23,6 @@ function addOrb(){
 
 
 function newRandomPosition(){
-	this.body.x = 200 + Math.abs( Math.random()*800 );
-	this.body.y = 200 + Math.abs( Math.random()*600 );
+	this.body.x = 200 +  (Math.random() * (game.world.width - 400));
+	this.body.y = 200 +  (Math.random() * (game.world.height - 400));
 }

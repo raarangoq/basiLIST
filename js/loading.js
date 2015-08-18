@@ -2,18 +2,48 @@
 // Variables para controlar la entrada por teclado
 var keyboard;
 
+
 loading = {
 	preload: function(){
 
+	game.load.image('end', 'assets/pics/end.png');
 	game.load.image('initmenu', 'assets/pics/initmenu.png');
 	game.load.image('lose', 'assets/pics/lose.png');
+	game.load.image('win', 'assets/pics/win.png');
+	game.load.image('pause', 'assets/pics/pause.png');
 
-			// Cargar ambiente del nivel 1
-	game.load.image('ground', 'assets/pics/ground.png');
-	game.load.image('footwall', 'assets/pics/footwall.png');
-	game.load.image('upperwall', 'assets/pics/upperwall.png');
-	game.load.image('lateralwall', 'assets/pics/lateralwall.png');
-	game.load.image('lateralwall2', 'assets/pics/lateralwall2.png');
+	// Cargar ambiente del nivel 1
+	game.load.image('level1-ground', 'assets/pics/level1/ground.png');
+	game.load.image('level1-footwall', 'assets/pics/level1/footwall.png');
+	game.load.image('level1-upperwall', 'assets/pics/level1/upperwall.png');
+	game.load.image('level1-lateralwall', 'assets/pics/level1/lateralwall.png');
+	game.load.image('level1-lateralwall2', 'assets/pics/level1/lateralwall2.png');
+
+
+	// Cargar ambiente del nivel 2
+	game.load.image('level2-ground', 'assets/pics/level2/ground.png');
+	//game.load.image('level2-footwall', 'assets/pics/level2/footwall.png');
+	//game.load.image('level2-upperwall', 'assets/pics/level2/upperwall.png');
+	//game.load.image('level2-lateralwall', 'assets/pics/level2/lateralwall.png');
+	//game.load.image('level2-lateralwall2', 'assets/pics/level2/lateralwall2.png');
+
+	// Cargar ambiente del nivel 3
+	game.load.image('level3-ground', 'assets/pics/level3/ground.png');
+	game.load.image('level3-footwall', 'assets/pics/level3/footwall.png');
+	game.load.image('level3-upperwall', 'assets/pics/level3/upperwall.png');
+	game.load.image('level3-lateralwall', 'assets/pics/level3/lateralwall.png');
+	game.load.image('level3-lateralwall2', 'assets/pics/level3/lateralwall2.png');
+
+	// Cargar ambiente del nivel 4
+	game.load.image('level4-ground', 'assets/pics/level4/ground.png');
+
+	// Cargar el ambiente del nivel 5
+	game.load.image('level5-ground', 'assets/pics/level5/ground.png');
+	game.load.image('level5-footwall', 'assets/pics/level5/footwall.png');
+	game.load.image('level5-upperwall', 'assets/pics/level5/upperwall.png');
+	game.load.image('level5-lateralwall', 'assets/pics/level5/lateralwall.png');
+	game.load.image('level5-lateralwall2', 'assets/pics/level5/lateralwall2.png');	
+
 	game.load.spritesheet('fire', 'assets/pics/fire.png', 32, 32);
 	game.load.image('pedestal', 'assets/pics/pedestal.png');
 

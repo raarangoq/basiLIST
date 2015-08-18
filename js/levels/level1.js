@@ -22,7 +22,7 @@ level1 = {
 		// Se habilita la física del juego
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		// el Fondo
-		level = game.add.sprite(0, 0, 'ground');
+		level = game.add.sprite(0, 0, 'level1-ground');
 
 		level.walls = game.add.group();
 		level.fires = game.add.group();
@@ -43,18 +43,21 @@ level1 = {
 	texta.fixedToCamera = true;
 
 		// Se agrega la primer serpiente
+		snakeHeads = [];
+
 		snakeHeads[0] = addSnakeSegment('');
 		snakeHeads[0].addSegment();
-
-		snakeHeads[1] = addSnakeSegment('');
-		snakeHeads[1].addSegment();
-
+		snakeHeads[0].addSegment();
+		snakeHeads[0].addSegment();
+		snakeHeads[0].addSegment();
+		snakeHeads[0].addSegment();
 
 		// Las interfaces del juego
 		gui = new GUI();
 		gui.updateHealthBar(player.health);
 
 		game.camera.follow(player); // La camara del juego seguirá al jugador
+
 
 	text.text = "cargando...";
 	},
@@ -88,7 +91,6 @@ level1 = {
 			snakeHeads[i].updateSnake();
 		}
 
-
 	},
 
 	// Pequeñas animaciones de fuego sobre el muro superior
@@ -107,14 +109,14 @@ level1 = {
 	addWalls: function(){	
 		level.walls.enableBody = true;
 
-		var wall = level.walls.create(0, 950, 'footwall');
+		var wall = level.walls.create(0, 950, 'level1-footwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(0, 0, 'upperwall');
+		wall = level.walls.create(0, 0, 'level1-upperwall');
 		wall.body.immovable = true;
 		wall.body.setSize(1200, 85, 0, 0);
-		wall = level.walls.create(0, 0, 'lateralwall');
+		wall = level.walls.create(0, 0, 'level1-lateralwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(1140, 0, 'lateralwall2');
+		wall = level.walls.create(1140, 0, 'level1-lateralwall2');
 		wall.body.immovable = true;
 	},
 
@@ -128,8 +130,12 @@ level1 = {
 			
 		// Cuando el ataque impacta a un segmento de serpiente	
 		if(player.is_attacking)
-			if( game.physics.arcade.overlap(segment, player.attack) )
+			if( game.physics.arcade.overlap(segment, player.attack) ){
 				segment.destroySegment();
+
+				if(snakeHeads.length <= 0)
+					game.state.start('win');
+			}
 
 
 		if(segment.next != ''){
