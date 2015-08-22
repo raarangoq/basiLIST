@@ -9,7 +9,7 @@ function addPause(){
 
 function pauseGame(){
 
-	if(game.global.is_playing){
+	if(game.global.is_playing && !win){
 		if(game.physics.arcade.isPaused){
 			this.pause_menu.visible = false;
 			game.physics.arcade.isPaused = false;

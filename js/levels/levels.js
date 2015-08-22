@@ -1,3 +1,5 @@
+
+
 // Los objetos del juego
 var red_orb;
 var player;
@@ -11,22 +13,33 @@ var snakeHeads = [];
 var text;
 var texta;
 
+var winImage;
+var win = false;
 
-level3 = {
+levels = {
 	create: function() {
+		win = false;
 
 		// Se dá el tamaño del nivel
-		game.world.setBounds(0, 0, 1000, 800);
+		game.world.setBounds(0, 0, 1200, 1000);
 		// Se habilita la física del juego
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		// el Fondo
-		level = game.add.sprite(0, 0, 'level3-ground');
+		level = game.add.sprite(0, 0, 'level' + game.global.level + '-ground');
+
+		// El nivel 5 tiene caida libre por los lados, se usa un colider para saber si el jugador aún toca el suelo
+		if(game.global.level == 5){
+			game.physics.enable(level, Phaser.Physics.ARCADE);
+			level.body.colliderWorldBounds = true;
+			level.body.setSize(1035, 870, 86, 83); 
+		}
+
 
 		level.walls = game.add.group();
 		level.fires = game.add.group();
 
 		// Funciones que se llaman al instanciar un Level
-		//this.addFires();
+		this.addFires();
 		this.addWalls();
 		
 		// Pueden existir varios orbes al mismo tiempo
@@ -41,29 +54,9 @@ level3 = {
 	texta.fixedToCamera = true;
 
 		// Se agrega la primer serpiente
-		snakeHeads[0] = addSnakeSegment('');
-		snakeHeads[0].addSegment();
-		snakeHeads[0].addSegment();
-		snakeHeads[0].addSegment();
-		snakeHeads[0].addSegment();
-		snakeHeads[0].addSegment();
-
-		// Se agrega la segunda serpiente del nivel
-		snakeHeads[1] = addSnakeSegment('');
-		snakeHeads[1].addSegment();
-		snakeHeads[1].addSegment();
-		snakeHeads[1].addSegment();
-		snakeHeads[1].addSegment();
-		snakeHeads[1].addSegment();
-
-		// Se agrega la tercera serpiente del nivel
-		snakeHeads[2] = addSnakeSegment('');
-		snakeHeads[2].addSegment();
-		snakeHeads[2].addSegment();
-		snakeHeads[2].addSegment();
-		snakeHeads[2].addSegment();
-		snakeHeads[2].addSegment();
-
+		snakeHeads = [];
+		this.addSnakes();
+		
 
 		// Las interfaces del juego
 		gui = new GUI();
@@ -71,14 +64,28 @@ level3 = {
 
 		game.camera.follow(player); // La camara del juego seguirá al jugador
 
+		winImage = game.add.sprite(0, 0, 'win');
+		winImage.fixedToCamera = true;
+		winImage.visible = false;
 
-	text.text = "cargando...";
+	//text.text = "cargando...";
 	},
+
+
 
 	update: function(){
 
+		if(win == true){
+			player.body.velocity.setTo(0, 0);
+			if( keyboard.enterKey() )
+				this.nextLevel();
+			else
+				return;
+		}
+
 		// Las colisiones del juego
 		game.physics.arcade.collide(player, level.walls);
+		game.physics.arcade.collide(player, level.fires);
 		for(var i=0; i<snakeHeads.length; i++){
 			this.collideSnake(snakeHeads[i]);
 		}
@@ -100,32 +107,59 @@ level3 = {
 			snakeHeads[i].updateSnake();
 		}
 
+		// Si el jugador cae en el nivel 5, pierde el juego
+		if(game.global.level == 5)
+			if( !game.physics.arcade.overlap(level, player) )
+				game.state.start('lose');
+
 	},
 
 	// Pequeñas animaciones de fuego sobre el muro superior
 	addFires: function(){
+		level.fires.enableBody = true;
+
 		var fire;
 		var pedestal;
 		for (var i=0; i<3; i++){
 			pedestal = level.fires.create(324 + i*284, 74, 'pedestal');
+			game.physics.enable(pedestal, Phaser.Physics.ARCADE);
+			pedestal.body.colliderWorldBounds = true;
+			//pedestal.body.setSize(1035, 870, 86, 83); 
+			pedestal.body.immovable = true;
 			fire = level.fires.create(321 + i*284, 49, 'fire');
+			fire.body.immovable = true;
 			fire.animations.add('fire', [0, 1], 10, true);
 			fire.animations.play('fire');
+		}
+
+	},
+
+	addSnakes: function(){
+		for(var i=0; i<game.global.level; i++){
+			snakeHeads[i] = addSnakeSegment('');
+			snakeHeads[i].addSegment();
+			snakeHeads[i].addSegment();
+			snakeHeads[i].addSegment();
+			snakeHeads[i].addSegment();
+			snakeHeads[i].addSegment();
 		}
 	},
 
 	// Se edicionan los muros al juego
 	addWalls: function(){	
+		// El ultimo piso no tiene muros (caida libre a los lados)
+		if(game.global.level == 5)
+			return;
 		level.walls.enableBody = true;
 
-		var wall = level.walls.create(0, 750, 'level3-footwall');
+		var wall = level.walls.create(0, 950, 'level1-footwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(0, 0, 'level3-upperwall');
+		wall = level.walls.create(0, 0, 'level1-upperwall');
 		wall.body.immovable = true;
-		wall.body.setSize(1000, 85, 0, 0);
-		wall = level.walls.create(0, 0, 'level3-lateralwall');
+		wall.body.setSize(1200, 85, 0, 0);
+		wall = level.walls.create(0, 0, 'level1-lateralwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(940, 0, 'level3-lateralwall2');
+		wall = level.walls.create(1140, 0, 'level1-lateralwall2');
 		wall.body.immovable = true;
 	},
 
@@ -143,13 +177,20 @@ level3 = {
 				segment.destroySegment();
 
 				if(snakeHeads.length <= 0)
-					game.state.start('win');
+					this.winLevel();
 			}
 
 
 		if(segment.next != ''){
 			this.collideSnake(segment.next);
 		}
+	},
+
+	nextLevel: function(){
+		if(game.global.level < 5)
+			game.state.start('win');
+		else 
+			game.state.start('end');
 	},
 
 
@@ -167,6 +208,13 @@ level3 = {
 					+ '\n Y: ' + snakeHeads[0].target_y ;
 
 		
+	},
+
+	winLevel: function(){
+		player.body.velocity.setTo(0, 0);
+		win = true;
+		winImage.visible = true;
+
 	}
 
 }

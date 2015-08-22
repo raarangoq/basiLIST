@@ -9,7 +9,9 @@ initMenu = {
 	update: function(){
 		if(keyboard.enterKey()){
 			game.global.is_playing = true;
-			game.state.start('level' + game.global.level);
+			game.state.start('introVideo');
 		}
+
+
 	}
 }

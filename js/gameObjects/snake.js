@@ -110,7 +110,7 @@ function addSegment(){
 function collectOrbSnake(orb){
 	orb.newRandomPosition();
 	this.addSegment();
-	setAllTargetsSnake();
+	setAllTargetsSnake(false);
 }
 
 
@@ -129,7 +129,7 @@ function destroyBody(){
 	this.previous.next = '';
 	snakeHeads.push( this.next );
 
-	setAllTargetsSnake();
+	setAllTargetsSnake(false);
 	this.destroy();
 }
 
@@ -141,7 +141,7 @@ function destroyHead(){
 
 	if(this.next != ''){
 		snakeHeads.push( this.next );
-		setAllTargetsSnake();
+		setAllTargetsSnake(true);
 	}
 
 	this.destroy();
@@ -377,24 +377,23 @@ function updateSnake(){
 //********************************************************************************************************
 // Metodos "estáticos"
 
-function setAllTargetsSnake(){
+function setAllTargetsSnake(headDestroyed){
 if(snakeHeads.length <= 0) return;
 
 
 	var snakeToOrb = selectSnakeWithOrbTarget();
-	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb);
+	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb, headDestroyed);
 
 	snakeHeads[snakeToOrb].setTarget('orb');
+
 	if(snakeToPlayer >= 0)
 		snakeHeads[snakeToPlayer].setTarget('player');
 
-	if(snakeHeads.length > 2)
+	if(snakeHeads.length >= 2)
 	for(var i=0; i<snakeHeads.length; i++){
 		if( i != snakeToOrb && i != snakeToPlayer)
 			snakeHeads[i].setTarget('random');
 	}	
-
-
 }
 
 
@@ -413,7 +412,7 @@ function selectSnakeWithOrbTarget(){
 	return snakeIndex;
 }
 
-function selectSnakeWithPlayerTarget(snakeToOrb){
+function selectSnakeWithPlayerTarget(snakeToOrb, headDestroyed){
 	var snakeIndex = -1;
 	var minDistance = 2000;
 
@@ -424,6 +423,11 @@ function selectSnakeWithPlayerTarget(snakeToOrb){
 			minDistance = actualDistance;
 		}
 	}
+
+	// Para evitar la situacion en que una serpiente entera camina hacia la espada del jugador
+	// cuando se destruye una cabeza, la nueva cabeza tendrá un objetivo al azar
+	if(headDestroyed && snakeIndex == snakeHeads.length - 1)
+		return -1;
 
 	return snakeIndex;
 }
