@@ -14,6 +14,8 @@ function addOrb(){
 	orb.animations.add('shine', [0, 1, 2], 6, true);
 	orb.animations.play('shine');
 
+	orb.sound = game.add.audio('orb', 1.5);
+
 	// Metodos
 	orb.newRandomPosition = newRandomPosition;
 
@@ -23,6 +25,7 @@ function addOrb(){
 
 
 function newRandomPosition(){
+	this.sound.play();
 	this.body.x = 200 +  (Math.random() * (game.world.width - 400));
 	this.body.y = 200 +  (Math.random() * (game.world.height - 400));
 }

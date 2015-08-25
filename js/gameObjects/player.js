@@ -30,6 +30,8 @@ function addPlayer(){
 	player.start_time_attack = game.time.time;
 	player.start_time_hit = game.time.time - 5000;
 	
+	player.sound_hit = game.add.audio('hit', 0.2);
+	player.sound_sword_fail = game.add.audio('swordair', 0.5);
 
 	// Los metodos del jugador
 	player.attacking = attacking;
@@ -98,6 +100,8 @@ function hitPlayer(segment){
 		this.body.velocity.x = 150;
 		this.body.velocity.y = 150;
 	}
+
+	this.sound_hit.play();
 }
 
 
@@ -166,6 +170,7 @@ function toAttack(){
 	this.is_attacking = true;
 	this.start_time_attack = game.time.time;
 	this.speed = this.SPEED_ATTACKING;
+	this.sound_sword_fail.play();
 }
 
 

@@ -9,6 +9,7 @@ var time;
 var x_pos;
 var y_pos;
 
+var sound;
 
 lose = {
 	create: function(){
@@ -22,6 +23,9 @@ lose = {
 		time = game.time.time;
 
 		game.global.is_playing = false;
+
+		sound = game.add.audio('droping', 0.5);
+		sound.play();
 	},
 
 	update: function(){

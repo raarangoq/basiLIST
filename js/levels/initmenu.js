@@ -1,9 +1,13 @@
 var image;
 
+
+
 initMenu = {
 	create: function(){
 		image = game.add.sprite(0, 0, 'initmenu');
 		game.global.is_playing = false;
+
+		
 	},
 
 	update: function(){

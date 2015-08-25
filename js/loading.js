@@ -33,16 +33,9 @@ loading = {
 
 	// Cargar ambiente del nivel 2
 	game.load.image('level2-ground', 'assets/pics/levels/level2-ground.png');
-
-	// Cargar ambiente del nivel 3
 	game.load.image('level3-ground', 'assets/pics/levels/level3-ground.png');
-
-	// Cargar ambiente del nivel 4
 	game.load.image('level4-ground', 'assets/pics/levels/level4-ground.png');
-
-	// Cargar el ambiente del nivel 5
 	game.load.image('level5-ground', 'assets/pics/levels/level5-ground.png');
-
 	game.load.spritesheet('fire', 'assets/pics/levels/fire.png', 32, 32);
 	game.load.image('pedestal', 'assets/pics/levels/pedestal.png');
 
@@ -61,6 +54,21 @@ loading = {
 
 	// El ataque del jugador
 	game.load.spritesheet('attack','assets/pics/attackzone.png', 30, 30);
+
+	game.load.audio('hit', 'assets/sounds/golpes.mp3');
+	game.load.audio('droping', 'assets/sounds/caida.mp3');
+	game.load.audio('environment', 'assets/sounds/el-ambiente_3.mp3');
+	game.load.audio('swordair', 'assets/sounds/espada-aire.mp3');
+	game.load.audio('medusa', 'assets/sounds/medusa-grito.mp3');
+
+	game.load.audio('start', 'assets/sounds/inicio.mp3');
+	game.load.audio('levelA', 'assets/sounds/levelA.mp3');
+	game.load.audio('levelB', 'assets/sounds/levelB.mp3');
+	game.load.audio('endsong', 'assets/sounds/final.mp3');
+	game.load.audio('orb', 'assets/sounds/orbe.mp3');
+	game.load.audio('roar', 'assets/sounds/rugido.mp3');
+
+
 	},
 
 	
@@ -68,5 +76,6 @@ loading = {
 		addKeyboard();
 
 		game.state.start('initMenu');
+		//game.state.start('end');
 	}
 }

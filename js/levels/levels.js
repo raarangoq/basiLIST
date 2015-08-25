@@ -9,12 +9,14 @@ var gui;
 var level;
 
 var snakeHeads = [];
-// fna bfask
-var text;
-var texta;
+
 
 var winImage;
 var win = false;
+
+
+var sound_backgroud;
+var sound_snake;
 
 levels = {
 	create: function() {
@@ -47,12 +49,6 @@ levels = {
 		// El jugador
 		addPlayer();
 
-
-	text = game.add.text(20, 20, 'inicio', { fontSize: '32px', fill: '#000'});
-	text.fixedToCamera = true;
-	texta = game.add.text(20, 60, 'inicio', { fontSize: '32px', fill: '#000'});
-	texta.fixedToCamera = true;
-
 		// Se agrega la primer serpiente
 		snakeHeads = [];
 		this.addSnakes();
@@ -68,7 +64,16 @@ levels = {
 		winImage.fixedToCamera = true;
 		winImage.visible = false;
 
-	//text.text = "cargando...";
+		if(game.global.level < 5)
+			sound_backgroud = game.add.audio('levelA', 0.5, true);
+		else
+			sound_backgroud = game.add.audio('levelB', 0.5, true);
+
+
+		sound_backgroud.play();
+
+		sound_snake = game.add.audio('roar');
+
 	},
 
 
@@ -109,8 +114,11 @@ levels = {
 
 		// Si el jugador cae en el nivel 5, pierde el juego
 		if(game.global.level == 5)
-			if( !game.physics.arcade.overlap(level, player) )
+			if( !game.physics.arcade.overlap(level, player) ){
+				sound_backgroud.destroy();
+				//Phaser.Sound.remove('environment');
 				game.state.start('lose');
+			}
 
 	},
 
@@ -170,10 +178,12 @@ levels = {
 		// No se debe permitir que el serpiente infrinja daño a un jugador que no puede moverse
 		if(player.canMove)
 			game.physics.arcade.collide(segment, player, this.snakeHitsPlayer);
+		
 			
 		// Cuando el ataque impacta a un segmento de serpiente	
 		if(player.is_attacking)
 			if( game.physics.arcade.overlap(segment, player.attack) ){
+				sound_snake.play();
 				segment.destroySegment();
 
 				if(snakeHeads.length <= 0)
@@ -187,6 +197,8 @@ levels = {
 	},
 
 	nextLevel: function(){
+		sound_backgroud.destroy();
+
 		if(game.global.level < 5)
 			game.state.start('win');
 		else 
@@ -196,16 +208,14 @@ levels = {
 
 	snakeHitsPlayer: function(segment, player){
 		player.hitPlayer(segment);
-		if(player.health <=0)
+		if(player.health <=0){
+			sound_backgroud.destroy();
 			game.state.start('lose');
+		}
 	},
 
 
 	render: function(){
-		if(snakeHeads[0])
-			texta.text = snakeHeads[0].target 
-					+ '\n X: ' + snakeHeads[0].target_x
-					+ '\n Y: ' + snakeHeads[0].target_y ;
 
 		
 	},

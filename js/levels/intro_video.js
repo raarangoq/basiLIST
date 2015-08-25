@@ -5,6 +5,8 @@ var dialog01;
 var dialog02;
 var link;
 
+var music;
+
 var time;
 
 intro_video = {
@@ -24,6 +26,9 @@ intro_video = {
 		game.global.is_playing = false;
 		time = game.time.time;
 		game.physics.arcade.moveToXY(link, 600, 400, 350);
+
+		music = game.add.sound('start', 0.6);
+		music.play();
 	},
 
 	update: function(){
@@ -56,13 +61,14 @@ intro_video = {
 			dialog02.visible = false;
 			game.physics.arcade.moveToXY(link, 1200, 1000, 300);
 		} 
-		else{
-			this.playGame();
-		}
+		//else{
+		//	this.playGame();
+		//}
 	},
 
 	playGame: function(){
 		game.global.is_playing = true;
+		music.destroy();
 		game.state.start('levels');
 	}
 }
