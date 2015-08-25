@@ -2,9 +2,13 @@
 // Variables para controlar la entrada por teclado
 var keyboard;
 
+var text;
 
 loading = {
 	preload: function(){
+
+text = game.add.text(20, 540, 'Cargando...', { fontSize: '28px', fill: '#ffffff'});
+text.fixedToCamera = true;
 
 	game.load.image('tower', 'assets/pics/videos/herculestower.png');
 	game.load.image('sky', 'assets/pics/videos/sky.png');

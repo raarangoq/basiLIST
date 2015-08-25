@@ -9,6 +9,8 @@ var music;
 
 var time;
 
+var text;
+
 intro_video = {
 	create: function(){
 		sky = game.add.sprite(0, 0, 'sky');
@@ -29,6 +31,10 @@ intro_video = {
 
 		music = game.add.sound('start', 0.6);
 		music.play();
+
+text = game.add.text(20, 540, 'Presione ENTER para jugar...', { fontSize: '28px', fill: '#000'});
+text.fixedToCamera = true;	
+
 	},
 
 	update: function(){

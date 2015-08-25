@@ -14,8 +14,6 @@ var x_target;
 var y_target;
 
 
-var text;
-
 win = {
 	create: function(){
 		sky = game.add.sprite(0, 0, 'sky');
@@ -26,10 +24,7 @@ win = {
 		time = game.time.time;
 
 		game.global.level++;
-		game.global.is_playing = false;
-
-text = game.add.text(20, 20, 'inicio', { fontSize: '32px', fill: '#000'});
-text.fixedToCamera = true;		
+		game.global.is_playing = false;	
 	},
 
 	update: function(){
