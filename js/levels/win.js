@@ -99,10 +99,5 @@ win = {
 			x_target = 470;
 			y_target = 130;
 		}
-	},
-
-	render: function(){
-		text.text = link.body.velocity.x
-			+ '\n' + link.body.velocity.y;
 	}
 }

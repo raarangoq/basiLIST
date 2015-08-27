@@ -42,6 +42,8 @@ text.fixedToCamera = true;
 	game.load.image('level5-ground', 'assets/pics/levels/level5-ground.png');
 	game.load.spritesheet('fire', 'assets/pics/levels/fire.png', 32, 32);
 	game.load.image('pedestal', 'assets/pics/levels/pedestal.png');
+	game.load.spritesheet('minisnake', 'assets/pics/levels/mini-snake.png', 20, 20);
+	game.load.image('minisnake-bar', 'assets/pics/levels/mini-snake-bar.png');
 
 	// La imagen del jugador
 	game.load.spritesheet('player', 'assets/pics/player.png', 70, 70);

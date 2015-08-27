@@ -8,8 +8,9 @@ function addPlayer(){
 	player = game.add.sprite(x_pos, y_pos, 'player');
 	game.physics.enable(player, Phaser.Physics.ARCADE);
 	player.body.colliderWorldBounds = true;
-	player.body.setSize(30, 34, 19, 17);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
 	player.body.bounce.setTo(2, 2);
+	player.scale.setTo(1.5, 1.5);
+	player.body.setSize(30, 34, 19 + 9, 17 + 15);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
 
 
 
@@ -93,7 +94,7 @@ function collectOrbPlayer(orb){
 function hitPlayer(segment){
 	this.canMove = false;
 	this.start_time_hit = game.time.time;
-	this.health -= this.hitDamage;
+	//this.health -= this.hitDamage;
 	gui.updateHealthBar(this.health);
 
 	if(this.body.velocity.x == 0 && this.body.velocity.y == 0){

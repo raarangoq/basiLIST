@@ -21,7 +21,3 @@ function pauseGame(){
 	}
 }
 
-
-//function pauseLevel(gui){
-//	gui.pauseGame();
-//}

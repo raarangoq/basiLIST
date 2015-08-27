@@ -17,16 +17,16 @@ function addAttack(){
 
 function changeAttackOrientation(orientation, player){
 	if(orientation == 'right'){
-		this.body.x = player.body.x + 30;
-		this.body.y = player.body.y;
+		this.body.x = player.body.x + 50;
+		this.body.y = player.body.y + 5;
 	}else if(orientation == 'left'){
-		this.body.x = player.body.x - 30;
-		this.body.y = player.body.y;
+		this.body.x = player.body.x - 40;
+		this.body.y = player.body.y + 5;
 	}else if(orientation == 'front'){
-		this.body.x = player.body.x;
-		this.body.y = player.body.y + 34;
+		this.body.x = player.body.x + 10;
+		this.body.y = player.body.y + 45;
 	}else if(orientation == 'back'){
-		this.body.x = player.body.x;
+		this.body.x = player.body.x + 10; 
 		this.body.y = player.body.y - 30;
 	}
 

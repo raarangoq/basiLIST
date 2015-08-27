@@ -18,6 +18,7 @@ function addSnakeSegment(previousSegment){
 	// Apuntadores a los segmentos anteriores y siguiente
 	snake.previous = previousSegment;
 	snake.next = '';
+	snake.stopTime = game.time.time;
 	// Apuntador al objetivo de este segmento
 	snake.target = 'orb';
 	snake.target_x = '';
@@ -39,6 +40,7 @@ function addSnakeSegment(previousSegment){
 	snake.destroyTail = destroyTail;
 	snake.distancePlayer = distancePlayer;
 	snake.distanceOrb = distanceOrb;
+	snake.lengthSnake = lengthSnake;
 	snake.moveSnake = moveSnake;
 	snake.playSnakeAnimation = playSnakeAnimation;
 	snake.resetDirection = resetDirection;
@@ -48,6 +50,7 @@ function addSnakeSegment(previousSegment){
 	snake.setTemporalTargetBody = setTemporalTargetBody;
 	snake.setTemporalTargetHead = setTemporalTargetHead;
 	snake.targetAngle = targetAngle;
+	snake.timeAfterMove = timeAfterMove;
 	snake.updateSnake = updateSnake;	
 
 
@@ -67,8 +70,8 @@ function addSnakeAnimations(snake){
 	snake.animations.add('head_right', [6, 7], frames_per_second, true);
 	snake.animations.add('head_back', [4, 5], frames_per_second, true);
 
-	snake.animations.add('body', [8, 9, 10], frames_per_second, true);
-
+	snake.animations.add('body', [8, 9, 10, 11, 12, 13], frames_per_second, true);
+	snake.animations.add('new_segment', [13, 14, 13, 14], frames_per_second, true);
 }
 
 
@@ -96,6 +99,8 @@ function initSegmentPositionY(previousSegment){
 // Funcion para agregar un segmento a una serpiente, primero irá hasta la cola, y allí agregará el segmento 
 // nuevo
 function addSegment(){
+	this.stopTime = game.time.time;
+
 	// Si este segmento no es la cola, se avanza hasta llegar a ella
 	if(this.next != '') {
 		this.next.addSegment();
@@ -143,7 +148,6 @@ function destroyHead(){
 		snakeHeads.push( this.next );
 		setAllTargetsSnake(true);
 	}
-
 	this.destroy();
 }
 
@@ -161,9 +165,22 @@ function distanceOrb(){
 	return game.physics.arcade.distanceBetween(this, red_orb);
 }
 
+function lengthSnake(){
+	if(this.next == '')
+		return 1;
+	else
+		return 1+ this.next.lengthSnake();
+}
+
 
 // Ejecutar el movimiento mismo de la serpiente
 function moveSnake(){
+	if(!this.timeAfterMove()){
+		this.body.velocity.setTo(0, 0);
+		if(this.next != '') 
+			this.next.moveSnake();
+		return;
+	}
 
 	// Para asegurar que un segmento siga al siguiente, se establece el objetivo del segmento siguiente constantemente
 	if( game.time.time - this.time_init_twisting > this.TIME_TWISTING/3 ) 
@@ -186,7 +203,10 @@ function playSnakeAnimation(){
 		this.animations.play('head_' + this.direction);
 	}
 	else{
-		this.animations.play('body');
+		if(!this.timeAfterMove() && this.next == '')
+			this.animations.play('new_segment');
+		else
+			this.animations.play('body');
 	}
 
 	if(this.next != '')
@@ -356,6 +376,13 @@ function targetAngle(u, v){
 	return Math.acos( numerator / denominator );
 }
 
+function timeAfterMove(){
+	if(game.time.time - this.stopTime <= 500)
+		return false;
+	else
+		return true;
+}
+
 
 
 function updateSnake(){
@@ -379,7 +406,6 @@ function updateSnake(){
 
 function setAllTargetsSnake(headDestroyed){
 if(snakeHeads.length <= 0) return;
-
 
 	var snakeToOrb = selectSnakeWithOrbTarget();
 	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb, headDestroyed);

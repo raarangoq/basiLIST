@@ -18,6 +18,9 @@ var win = false;
 var sound_backgroud;
 var sound_snake;
 
+
+var text;
+
 levels = {
 	create: function() {
 		win = false;
@@ -74,6 +77,13 @@ levels = {
 
 		sound_snake = game.add.audio('roar');
 
+
+
+		text = game.add.text(20, 540, 
+			game.physics.arcade.distanceToXY(red_orb, red_orb.previous_x_pos, red_orb.previous_y_pos), 
+			{ fontSize: '28px', fill: '#ffffff'});
+		text.fixedToCamera = true;
+
 	},
 
 
@@ -94,6 +104,7 @@ levels = {
 		for(var i=0; i<snakeHeads.length; i++){
 			this.collideSnake(snakeHeads[i]);
 		}
+		gui.updateCountEnemy();
 
 		// Solapamientos entre objetos
 		if(	game.physics.arcade.overlap(player, red_orb) )	{
@@ -119,7 +130,6 @@ levels = {
 				//Phaser.Sound.remove('environment');
 				game.state.start('lose');
 			}
-
 	},
 
 	// Pequeñas animaciones de fuego sobre el muro superior
@@ -216,7 +226,6 @@ levels = {
 
 
 	render: function(){
-
 		
 	},
 
