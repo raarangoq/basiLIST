@@ -45,6 +45,7 @@ function addSnakeSegment(previousSegment){
 	snake.playSnakeAnimation = playSnakeAnimation;
 	snake.resetDirection = resetDirection;
 	snake.setNextSegmentTarget = setNextSegmentTarget;
+	snake.setRandomTarget = setRandomTarget;
 	snake.setTarget = setTarget;
 	snake.setTemporalTarget = setTemporalTarget;
 	snake.setTemporalTargetBody = setTemporalTargetBody;
@@ -235,28 +236,40 @@ function setNextSegmentTarget(){
 	}
 }
 
+function setRandomTarget(){
+	do{
+		this.target_x = 200 +  (Math.random() * (game.world.width - 400));
+		this.target_y = 200 +  (Math.random() * (game.world.height - 400));
+	}while (game.physics.arcade.distanceToXY(this, this.target_x, this.target_y) < 300);
+
+	
+}
+
 // Se fija el objetivo del segmento de serpiente
 // Puede ser el orbe, el jugador, o un punto al azar (estos tres casos si es la cabeza)
 // Si no es la cabeza, seguirá al segmento anterior
 function setTarget(target){
 	// Cabeza
 	if(this.previous == ''){
-
 		this.target = target;
 
 		// Primer caso, seguir el orbe (solo si es la cabeza), es el objetivo final, se usan
 		// objetivos temporales para crear el movimiento ondulante de la serpiente
 		if(target == 'orb'){
-			this.target_x = red_orb.body.x;
-			this.target_y = red_orb.body.y;
+			if(red_orb.can_take){
+				this.target_x = red_orb.body.x;
+				this.target_y = red_orb.body.y;
+			}
+			else{
+				this.setRandomTarget();
+			}
 		}
 		else if(target == 'player'){
 			this.target_x = player.body.x;
 			this.target_y = player.body.y;
 		}
 		else if(target == 'random'){
-			this.target_x = 200 +  (Math.random() * (game.world.width - 400));
-			this.target_y = 200 +  (Math.random() * (game.world.height - 400));
+			this.setRandomTarget();
 		}
 		this.setTemporalTarget();
 	}
@@ -384,6 +397,8 @@ function timeAfterMove(){
 }
 
 
+var isForOrb = true;
+
 
 function updateSnake(){
 
@@ -391,6 +406,15 @@ function updateSnake(){
 		game.physics.arcade.distanceToXY(this,this.target_x,this.target_y) < 20 &&
 		( this.target == 'random' || this.target == 'player' ) ){
 			this.setTarget(this.target);
+	}
+
+	if(this.target == 'orb' && red_orb.can_take && !isForOrb){
+		this.target_x = red_orb.body.x;
+		this.target_y = red_orb.body.y;
+
+		isForOrb = true;
+
+		this.setTemporalTarget();
 	}
 
 
@@ -411,20 +435,23 @@ if(snakeHeads.length <= 0) return;
 	var snakeToPlayer = selectSnakeWithPlayerTarget(snakeToOrb, headDestroyed);
 
 	snakeHeads[snakeToOrb].setTarget('orb');
+isForOrb = false;	
 
 	if(snakeToPlayer >= 0)
 		snakeHeads[snakeToPlayer].setTarget('player');
 
-	if(snakeHeads.length >= 2)
+	if(snakeHeads.length >= 1)
 	for(var i=0; i<snakeHeads.length; i++){
 		if( i != snakeToOrb && i != snakeToPlayer)
 			snakeHeads[i].setTarget('random');
 	}	
+
 }
 
 
 function selectSnakeWithOrbTarget(){
 	var snakeIndex = 0;
+
 	var minDistance = snakeHeads[0].distanceOrb();
 
 	for(var i=1; i<snakeHeads.length; i++){ 

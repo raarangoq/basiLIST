@@ -19,6 +19,9 @@ var sound_backgroud;
 var sound_snake;
 
 
+
+var text;
+
 levels = {
 	create: function() {
 		win = false;
@@ -75,6 +78,9 @@ levels = {
 
 		sound_snake = game.add.audio('roar');
 
+
+//text = game.add.text(20, 540, 'Cargando...', { fontSize: '28px', fill: '#ffffff'});
+//text.fixedToCamera = true;
 	},
 
 
@@ -98,16 +104,17 @@ levels = {
 		gui.updateCountEnemy();
 
 		// Solapamientos entre objetos
-		if(	game.physics.arcade.overlap(player, red_orb) )	{
+		if(red_orb.can_take && game.physics.arcade.overlap(player, red_orb) ){
 			player.collectOrbPlayer(red_orb);
 			setAllTargetsSnake();
 		}
 		// Si alguna de las serpientes atrapan algún orbe
-		for(var i=0; i<snakeHeads.length; i++){ 
-			if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
-				snakeHeads[i].collectOrbSnake(red_orb);
+		if(red_orb.can_take)
+			for(var i=0; i<snakeHeads.length; i++){ 
+				if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
+					snakeHeads[i].collectOrbSnake(red_orb);
+				}
 			}
-		}
 
 		player.updatePlayer();
 		for(var i=0; i<snakeHeads.length; i++) {
@@ -121,6 +128,12 @@ levels = {
 				//Phaser.Sound.remove('environment');
 				game.state.start('lose');
 			}
+
+		if(red_orb.updateOrb()){
+			red_orb.can_take = true;
+			setAllTargetsSnake();
+		}
+
 	},
 
 	// Pequeñas animaciones de fuego sobre el muro superior
@@ -217,7 +230,7 @@ levels = {
 
 
 	render: function(){
-		
+//text.text = red_orb.can_take;
 	},
 
 	winLevel: function(){
