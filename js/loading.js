@@ -12,13 +12,15 @@ text.fixedToCamera = true;
 
 	game.load.image('tower', 'assets/pics/videos/herculestower.png');
 	game.load.image('sky', 'assets/pics/videos/sky.png');
+	game.load.image('cloud', 'assets/pics/videos/nube.png');
 	game.load.image('stairs', 'assets/pics/videos/herculestowerstairs.png');
 	game.load.image('dialog01', 'assets/pics/videos/dialog01.png');
 	game.load.image('dialog02', 'assets/pics/videos/dialog02.png');
-	game.load.image('link', 'assets/pics/videos/link.png');
+	game.load.spritesheet('link', 'assets/pics/videos/link.png', 148, 150);
 	game.load.spritesheet('medusa', 'assets/pics/videos/medusa.png', 128, 128);
 	game.load.image('medusadialog01', 'assets/pics/videos/medusaDialog01.png');
 	game.load.image('medusadialog02', 'assets/pics/videos/medusaDialog02.png');
+	game.load.image('enterkey', 'assets/pics/videos/entertoplay.png');
 
 
 	game.load.image('end', 'assets/pics/end.png');
@@ -27,19 +29,14 @@ text.fixedToCamera = true;
 	game.load.image('win', 'assets/pics/win.png');
 	game.load.image('pause', 'assets/pics/pause.png');
 
-	// Cargar ambiente del nivel 1
-	game.load.image('level1-ground', 'assets/pics/levels/level1-ground.png');
-	game.load.image('level1-footwall', 'assets/pics/levels/footwall.png');
-	game.load.image('level1-upperwall', 'assets/pics/levels/upperwall.png');
-	game.load.image('level1-lateralwall', 'assets/pics/levels/lateralwall.png');
-	game.load.image('level1-lateralwall2', 'assets/pics/levels/lateralwall2.png');
+	// Cargar ambiente del nivel 
+	game.load.image('levels-ground', 'assets/pics/levels/levels-ground.png');
+	game.load.image('levels-footwall', 'assets/pics/levels/footwall.png');
+	game.load.image('levels-upperwall', 'assets/pics/levels/upperwall.png');
+	game.load.image('levels-lateralwall', 'assets/pics/levels/lateralwall.png');
+	game.load.image('levels-lateralwall2', 'assets/pics/levels/lateralwall2.png');
 
 
-	// Cargar ambiente del nivel 2
-	game.load.image('level2-ground', 'assets/pics/levels/level2-ground.png');
-	game.load.image('level3-ground', 'assets/pics/levels/level3-ground.png');
-	game.load.image('level4-ground', 'assets/pics/levels/level4-ground.png');
-	game.load.image('level5-ground', 'assets/pics/levels/level5-ground.png');
 	game.load.spritesheet('fire', 'assets/pics/levels/fire.png', 32, 32);
 	game.load.image('pedestal', 'assets/pics/levels/pedestal.png');
 	game.load.spritesheet('minisnake', 'assets/pics/levels/mini-snake.png', 20, 20);
@@ -53,7 +50,7 @@ text.fixedToCamera = true;
 	game.load.spritesheet('heart', 'assets/pics/heart.png', 14, 16);
 
 	// Los items del juego
-	game.load.spritesheet('redorb', 'assets/pics/redorb.png', 24, 32);
+	game.load.spritesheet('redorb', 'assets/pics/redorb.png', 30, 13);
 
 	// La serpiente principal
 	game.load.spritesheet('snake', 'assets/pics/snake.png', 50, 50);

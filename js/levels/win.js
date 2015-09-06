@@ -5,6 +5,7 @@ var tower;
 var sky;
 var link;
 var stairs;
+var cloud;
 
 var time;
 
@@ -17,6 +18,14 @@ var y_target;
 win = {
 	create: function(){
 		sky = game.add.sprite(0, 0, 'sky');
+
+		cloud = game.add.sprite(400, 150, 'cloud');
+		game.physics.enable(cloud, Phaser.Physics.ARCADE);
+		cloud.body.velocity.x= 2;
+		cloud = game.add.sprite(200, 300, 'cloud');
+		game.physics.enable(cloud, Phaser.Physics.ARCADE);
+		cloud.body.velocity.x= 3;
+
 		tower = game.add.sprite(0, 0, 'tower');
 		this.addLink();
 		stairs = game.add.sprite(0, 0, 'stairs');
@@ -40,7 +49,11 @@ win = {
 		this.setPos();
 		link = game.add.sprite(x_pos, y_pos, 'link');
 		game.physics.enable(link, Phaser.Physics.ARCADE);
-		link.scale.setTo(-0.4, 0.4);
+
+		if(game.global.level == 1 || game.global.level ==3)
+			link.scale.setTo(-0.2, 0.2);
+		else
+			link.scale.setTo(0.2, 0.2);
 
 		this.setTarget();
 		game.physics.arcade.moveToXY(link, x_target, y_target, 60);
@@ -65,39 +78,39 @@ win = {
 
 	setPos: function(){
 		if(game.global.level == 1){
-			x_pos = 470;
-			y_pos = 410;
+			x_pos = 385;
+			y_pos = 425;
 		}
 		else if(game.global.level == 2){
-			x_pos = 470;
-			y_pos = 350;
+			x_pos = 415;
+			y_pos = 363;
 		}
 		else if(game.global.level == 3){
-			x_pos = 470;
-			y_pos = 280;
+			x_pos = 385;
+			y_pos = 302;
 		}
 		else if(game.global.level == 4){
-			x_pos = 470;
-			y_pos = 222;
+			x_pos = 348;
+			y_pos = 237;
 		}
 	},
 
 	setTarget: function(){
 		if(game.global.level == 1){
-			x_target = 500;
-			y_target = 355;
+			x_target = 440;
+			y_target = 360;
 		}
 		else if(game.global.level == 2){
-			x_target = 500;
-			y_target = 287;
+			x_target = 362;
+			y_target = 298;
 		}
 		else if(game.global.level == 3){
-			x_target = 497;
+			x_target = 440;
 			y_target = 230;
 		}
 		else if(game.global.level == 4){
-			x_target = 470;
-			y_target = 130;
+			x_target = 348;
+			y_target = 190;
 		}
 	}
 }

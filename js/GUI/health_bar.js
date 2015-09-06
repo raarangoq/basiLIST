@@ -6,19 +6,19 @@
 // Agregar la interfaz de salud del jugador, solo se invoca al inicio
 function addHealthBar(){
 
-	var POSITION_X = 20;
-	var POSITION_Y = 550;
+	var POSITION_X = 0;
+	var POSITION_Y = 540;
 
 	var health_bar = game.add.sprite(POSITION_X, POSITION_Y, 'healthbar');
-	health_bar.scale.setTo(2, 2);
+	health_bar.scale.setTo(1.8, 1.3);
 	health_bar.fixedToCamera = true;
 
 	health_bar.heart = [];
 
 	for(var i=0; i<5; i++){
 		health_bar.heart[i] = game.add.sprite(
-			6 + POSITION_X + i*40, 
-			POSITION_Y + 4, 
+			15 + POSITION_X + i*40, 
+			POSITION_Y + 15, 
 			'heart');
 		health_bar.heart[i].scale.setTo(2, 2);
 		health_bar.heart[i].fixedToCamera = true;

@@ -13,6 +13,7 @@ var snakeHeads = [];
 
 var winImage;
 var win = false;
+var enter_dialog;
 
 
 var sound_backgroud;
@@ -31,7 +32,7 @@ levels = {
 		// Se habilita la física del juego
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		// el Fondo
-		level = game.add.sprite(0, 0, 'level' + game.global.level + '-ground');
+		level = game.add.sprite(0, 0, 'levels-ground');
 
 		// El nivel 5 tiene caida libre por los lados, se usa un colider para saber si el jugador aún toca el suelo
 		if(game.global.level == 5){
@@ -67,6 +68,9 @@ levels = {
 		winImage = game.add.sprite(0, 0, 'win');
 		winImage.fixedToCamera = true;
 		winImage.visible = false;
+		enter_dialog = game.add.sprite(100, 500, 'enterkey');
+		enter_dialog.fixedToCamera = true;
+		enter_dialog.visible = false;
 
 		if(game.global.level < 5)
 			sound_backgroud = game.add.audio('levelA', 0.5, true);
@@ -142,16 +146,20 @@ levels = {
 
 		var fire;
 		var pedestal;
-		for (var i=0; i<3; i++){
-			pedestal = level.fires.create(324 + i*284, 74, 'pedestal');
+
+		var position_pedestal = [322, 599, 885];
+
+		for (var i = 0; i < position_pedestal.length; i++){
+			pedestal = level.fires.create(position_pedestal[i], 84, 'pedestal');
 			game.physics.enable(pedestal, Phaser.Physics.ARCADE);
 			pedestal.body.colliderWorldBounds = true;
 			//pedestal.body.setSize(1035, 870, 86, 83); 
 			pedestal.body.immovable = true;
-			fire = level.fires.create(321 + i*284, 49, 'fire');
+			fire = level.fires.create(position_pedestal[i] - 3, 59, 'fire');
 			fire.body.immovable = true;
 			fire.animations.add('fire', [0, 1], 10, true);
 			fire.animations.play('fire');
+
 		}
 
 	},
@@ -174,14 +182,14 @@ levels = {
 			return;
 		level.walls.enableBody = true;
 
-		var wall = level.walls.create(0, 950, 'level1-footwall');
+		var wall = level.walls.create(0, 954, 'levels-footwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(0, 0, 'level1-upperwall');
+		wall = level.walls.create(0, 0, 'levels-upperwall');
 		wall.body.immovable = true;
 		wall.body.setSize(1200, 85, 0, 0);
-		wall = level.walls.create(0, 0, 'level1-lateralwall');
+		wall = level.walls.create(0, 0, 'levels-lateralwall');
 		wall.body.immovable = true;
-		wall = level.walls.create(1140, 0, 'level1-lateralwall2');
+		wall = level.walls.create(1138, 0, 'levels-lateralwall2');
 		wall.body.immovable = true;
 	},
 
@@ -237,7 +245,7 @@ levels = {
 		player.body.velocity.setTo(0, 0);
 		win = true;
 		winImage.visible = true;
-
+		enter_dialog.visible = true;
 	}
 
 }

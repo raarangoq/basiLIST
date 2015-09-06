@@ -51,19 +51,20 @@ function addPlayer(){
 // Cada una de las animaciones del jugador, no se agrega al objeto player debido a que esta función solo se ejecuta al crear un player
 function addPlayerAnimations(gameObject){
 
-	var frames_per_second = 8;
+	var frames_per_second = 10;
+
 
 	// animaciones para caminar
-	gameObject.animations.add('walk_front', [0, 1], frames_per_second, true);
-	gameObject.animations.add('walk_left', [2, 3], frames_per_second, true);
-	gameObject.animations.add('walk_right', [15, 16], frames_per_second, true);
-	gameObject.animations.add('walk_back', [4, 5], frames_per_second, true);
+	gameObject.animations.add('walk_front', [0, 1, 2, 3], frames_per_second, true);
+	gameObject.animations.add('walk_left', [8, 9, 10, 11], frames_per_second, true);
+	gameObject.animations.add('walk_right', [24, 25, 26, 27], frames_per_second, true);
+	gameObject.animations.add('walk_back', [16, 17, 18, 19], frames_per_second, true);
 
 	// animaciones para atacar
-	gameObject.animations.add('attack_front', [9, 10, 11, 11, 9], frames_per_second, false);
-	gameObject.animations.add('attack_left', [6, 7, 8, 8, 6], frames_per_second, false);
-	gameObject.animations.add('attack_right', [17, 18, 19, 19, 17], frames_per_second, false);
-	gameObject.animations.add('attack_back', [12, 13, 14, 14, 12], frames_per_second, false);
+	gameObject.animations.add('attack_front', [4, 5, 6, 7], frames_per_second, false);
+	gameObject.animations.add('attack_left', [12, 13, 14, 15], frames_per_second, false);
+	gameObject.animations.add('attack_right', [28, 29, 30, 31], frames_per_second, false);
+	gameObject.animations.add('attack_back', [20, 21, 22, 23], frames_per_second, false);
 }
 
 

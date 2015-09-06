@@ -6,6 +6,7 @@ var image;
 var medusa;
 var medusa_dialog01;
 var medusa_dialog02;
+var enter_dialog;
 
 var medusa_sound;
 var medusa_sound_played = false;
@@ -28,6 +29,15 @@ end = {
 		music.play();
 		
 		sky = game.add.sprite(0, 0, 'sky');
+
+		cloud = game.add.sprite(400, 150, 'cloud');
+		game.physics.enable(cloud, Phaser.Physics.ARCADE);
+		cloud.body.velocity.x= 2;
+		cloud = game.add.sprite(200, 300, 'cloud');
+		game.physics.enable(cloud, Phaser.Physics.ARCADE);
+		cloud.body.velocity.x= 3;
+
+
 		this.addMedusa();
 		tower = game.add.sprite(0, 0, 'tower');
 		stairs = game.add.sprite(0, 0, 'stairs');
@@ -35,6 +45,10 @@ end = {
 	
 		image = game.add.sprite(0, 0, 'end');
 		image.visible = false;
+		enter_dialog = game.add.sprite(50, 500, 'enterkey');
+		enter_dialog.visible = false;
+
+
 		medusa_dialog01 = game.add.sprite(0, 100, 'medusadialog01');
 		medusa_dialog01.visible = false;
 		medusa_dialog02 = game.add.sprite(100, 100, 'medusadialog02');
@@ -61,19 +75,21 @@ end = {
 	},
 
 	addLink: function(){
-		link = game.add.sprite(470, 140, 'link');
+		link = game.add.sprite(420, 193, 'link');
+		link.animations.add('go', [0, 1, 2, 3], 10, true);
+		link.animations.play('go');
 		game.physics.enable(link, Phaser.Physics.ARCADE);
-		link.scale.setTo(-0.4, 0.4);
-		link.pivot.setTo(16, 24);
+		link.scale.setTo(-0.2, 0.2);
+		link.pivot.setTo(70, 70);
 	},
 
 	addMedusa: function(){
-		medusa = game.add.sprite(400, 400, 'medusa');
+		medusa = game.add.sprite(300, 600, 'medusa');
 		game.physics.enable(medusa, Phaser.Physics.ARCADE);
 		medusa.animations.add('normal', [0, 1, 2, 3, 4, 5], 6, true);
 		medusa.animations.add('attack', [6, 7, 8, 9], 6, false);
 		medusa.animations.play('normal');
-		game.physics.arcade.moveToXY(medusa, 400, 100, 200);
+		game.physics.arcade.moveToXY(medusa, 350, 90, 200);
 
 	},
 
@@ -86,7 +102,7 @@ end = {
 
 	playEnd: function(){
 
-		if( game.physics.arcade.distanceToXY(medusa, 400, 50) <= 10 && medusa_in_position){
+		if( game.physics.arcade.distanceToXY(medusa, 350, 90) <= 10 && medusa_in_position){
 			medusa.body.velocity.setTo(0, 0);
 			medusa_dialog02.visible = false;
 			medusa_dialog01.visible = true;
@@ -124,6 +140,7 @@ end = {
 		else if( local_time < 15000){
 			medusa_dialog01.visible = false;
 			image.visible = true;
+			enter_dialog.visible = true;
 		}	
 
 		if( local_time > 20000 )

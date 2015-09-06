@@ -9,9 +9,9 @@ function addOrb(){
 	// Configuración del cuerpo físico
 	game.physics.enable(orb, Phaser.Physics.ARCADE);
 	orb.body.colliderWorldBounds = true;
-	orb.body.setSize(24, 24, 0, 0);   // Reajustar el collider del jugador, para que solo cubra el cuerpo
+	//orb.body.setSize(24, 24, 0, 0);   // Reajustar el collider del alimento, para que solo cubra el cuerpo
 
-	orb.animations.add('shine', [0, 1, 2], 6, true);
+	orb.animations.add('shine', [0, 1], 4, true);
 	orb.animations.play('shine');
 
 	orb.previous_x_pos = 10;
@@ -26,7 +26,7 @@ function addOrb(){
 	// Metodos
 	orb.newRandomPosition = newRandomPosition;
 	orb.updateOrb = updateOrb;
-	orb.showOrb = showOrb();
+	orb.showOrb = showOrb;
 
 	return orb;
 }
@@ -58,7 +58,7 @@ function updateOrb(){
 		else if(game.global.level == 3 && game.time.time - this.time_to_appear > 1000){
 			this.showOrb();
 		}
-		else (game.time.time - this.time_to_appear > 1000){
+		else if(game.global.level >= 4 &&  game.time.time - this.time_to_appear > 1000){
 			this.showOrb();
 		}
 
@@ -68,9 +68,9 @@ function updateOrb(){
 
 function showOrb(){
 	this.can_take = true;
-			this.visible = true;
+	this.visible = true;
 
 
-			setAllTargetsSnake(false);
-			return true;
+	setAllTargetsSnake(false);
+	return true;
 }
