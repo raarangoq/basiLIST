@@ -1,12 +1,12 @@
 var tower;
 var sky;
 var link;
+var linkfail;
 var stairs;
 var image;
 var medusa;
 var medusa_dialog01;
 var medusa_dialog02;
-var enter_dialog;
 
 var medusa_sound;
 var medusa_sound_played = false;
@@ -45,8 +45,6 @@ end = {
 	
 		image = game.add.sprite(0, 0, 'end');
 		image.visible = false;
-		enter_dialog = game.add.sprite(50, 500, 'enterkey');
-		enter_dialog.visible = false;
 
 
 		medusa_dialog01 = game.add.sprite(0, 100, 'medusadialog01');
@@ -81,6 +79,13 @@ end = {
 		game.physics.enable(link, Phaser.Physics.ARCADE);
 		link.scale.setTo(-0.2, 0.2);
 		link.pivot.setTo(70, 70);
+
+
+		linkfail = game.add.sprite(420, 193, 'linkfail');
+		linkfail.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, true);
+		game.physics.enable(linkfail, Phaser.Physics.ARCADE);
+		linkfail.scale.setTo(0.2, 0.2);
+		linkfail.visible = false;
 	},
 
 	addMedusa: function(){
@@ -127,21 +132,34 @@ end = {
 				make_hit = false;
 			}
 		}
-		else if( local_time < 13000 ){
+		else if( local_time < 12000 ){
 			if(setPhysics){
-				link.body.gravity.setTo(0, 50);
-				link.body.velocity.setTo( 100, -40);
-				link.body.angularVelocity = 540;
+				link.visible = false;
+				linkfail.visible = true;
+
+				linkfail.animations.play('fly');
+				game.add.tween(linkfail.scale).to({ x:2, y:2 }, 4000, Phaser.Easing.Linear.None, true);
+
 				setPhysics = false;
 				medusa.animations.play('normal');
 				down_sound.play();
 			}
+
+			if(linkfail.scale.x ==2){
+				linkfail.frame = 9;
+			}
 		}
 		else if( local_time < 15000){
+			if(linkfail.scale.x ==2){
+				linkfail.frame = 9;
+			}
+		}
+		else if( local_time < 18000){
 			medusa_dialog01.visible = false;
 			image.visible = true;
-			enter_dialog.visible = true;
 		}	
+
+
 
 		if( local_time > 20000 )
 			link.destroy();

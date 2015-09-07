@@ -17,6 +17,17 @@ text.fixedToCamera = true;
 	game.load.image('dialog01', 'assets/pics/videos/dialog01.png');
 	game.load.image('dialog02', 'assets/pics/videos/dialog02.png');
 	game.load.spritesheet('link', 'assets/pics/videos/link.png', 148, 150);
+
+
+
+	game.load.spritesheet('linkfail', 'assets/pics/videos/linkfail.png', 145, 175);
+	game.load.image('helmet', 'assets/pics/videos/helmet.png');
+	game.load.image('sword', 'assets/pics/videos/sword.png');
+
+
+
+
+
 	game.load.spritesheet('medusa', 'assets/pics/videos/medusa.png', 128, 128);
 	game.load.image('medusadialog01', 'assets/pics/videos/medusaDialog01.png');
 	game.load.image('medusadialog02', 'assets/pics/videos/medusaDialog02.png');

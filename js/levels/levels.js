@@ -13,7 +13,6 @@ var snakeHeads = [];
 
 var winImage;
 var win = false;
-var enter_dialog;
 
 
 var sound_backgroud;
@@ -68,9 +67,6 @@ levels = {
 		winImage = game.add.sprite(0, 0, 'win');
 		winImage.fixedToCamera = true;
 		winImage.visible = false;
-		enter_dialog = game.add.sprite(100, 500, 'enterkey');
-		enter_dialog.fixedToCamera = true;
-		enter_dialog.visible = false;
 
 		if(game.global.level < 5)
 			sound_backgroud = game.add.audio('levelA', 0.5, true);
@@ -245,7 +241,6 @@ levels = {
 		player.body.velocity.setTo(0, 0);
 		win = true;
 		winImage.visible = true;
-		enter_dialog.visible = true;
 	}
 
 }
