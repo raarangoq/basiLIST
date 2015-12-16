@@ -145,9 +145,7 @@ end = {
 				down_sound.play();
 			}
 
-			if(linkfail.scale.x ==2){
-				linkfail.frame = 9;
-			}
+			
 		}
 		else if( local_time < 15000){
 			if(linkfail.scale.x ==2){

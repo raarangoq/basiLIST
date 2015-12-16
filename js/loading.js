@@ -7,8 +7,10 @@ var text;
 loading = {
 	preload: function(){
 
-text = game.add.text(20, 540, 'Cargando...', { fontSize: '28px', fill: '#ffffff'});
-text.fixedToCamera = true;
+	game.time.events.add(2000, function () {       
+        text = game.add.text(20, 540, "Cargando..", 
+            { font: "28pt ferney", fill: '#fff', stroke: '#000000', strokeThickness: 6 });
+    },this);
 
 	game.load.image('tower', 'assets/pics/videos/herculestower.png');
 	game.load.image('sky', 'assets/pics/videos/sky.png');

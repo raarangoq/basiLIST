@@ -29,7 +29,8 @@ function addEnemyLine(){
 		enemys_animatios[i] = game.add.sprite(680, 15+ i*50,'minisnake');
 		enemys_animatios[i].scale.setTo(2, 2);
 		enemys_animatios[i].fixedToCamera = true;
-		enemys_counts[i] = game.add.text(720, 10+ i*50, snakeHeads[i].lengthSnake(), { fontSize: '24px', fill: '#ffffff'});
+		enemys_counts[i] = game.add.text(720, i*50, snakeHeads[i].lengthSnake(), 
+			 { font: "16pt ferney", fill: '#fff', stroke: '#000000', strokeThickness: 6 });
 		enemys_counts[i].scale.setTo(2, 2);
 		enemys_counts[i].fixedToCamera = true;
 	}

@@ -27,7 +27,7 @@ function changeAttackOrientation(orientation, player){
 		this.body.y = player.body.y + 45;
 	}else if(orientation == 'back'){
 		this.body.x = player.body.x + 10; 
-		this.body.y = player.body.y - 30;
+		this.body.y = player.body.y - 60;
 	}
 
 	this.setAttackFrame(orientation);
