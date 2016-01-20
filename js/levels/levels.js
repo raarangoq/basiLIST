@@ -68,10 +68,7 @@ levels = {
 		winImage.fixedToCamera = true;
 		winImage.visible = false;
 
-		if(game.global.level < 5)
-			sound_backgroud = game.add.audio('levelA', 0.5, true);
-		else
-			sound_backgroud = game.add.audio('levelB', 0.5, true);
+		sound_backgroud = game.add.audio('levelB', 0.5, true);
 
 
 		sound_backgroud.play();

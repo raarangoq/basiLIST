@@ -6,7 +6,8 @@ game.global = {
 	is_playing : false
 }
 
-game.state.add('loading', loading, true);
+game.state.add('boot', boot, true);
+game.state.add('loading', loading);
 
 game.state.add('lose', lose);
 game.state.add('win', win);
