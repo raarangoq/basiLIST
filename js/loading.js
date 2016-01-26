@@ -6,6 +6,7 @@ var text;
 
 loading = {
 	preload: function(){
+		
 		game.load.image('tower', 'assets/pics/videos/herculestower.png');
 		game.load.image('sky', 'assets/pics/videos/sky.png');
 		game.load.image('cloud', 'assets/pics/videos/nube.png');
@@ -35,6 +36,8 @@ loading = {
 		game.load.image('lose', 'assets/pics/lose.png');
 		game.load.image('win', 'assets/pics/win.png');
 		game.load.image('pause', 'assets/pics/pause.png');
+		game.load.image('blankpause', 'assets/pics/blankpause.png');
+    	game.load.image('input', 'assets/pics/input.png');
 
 		// Cargar ambiente del nivel 
 		game.load.image('levels-ground', 'assets/pics/levels/levels-ground.png');
@@ -81,7 +84,6 @@ loading = {
 
 	
 	create: function(){
-//		game.load.onLoadComplete.add(this.loadComplete, this);
 		addKeyboard();
 	},
 
@@ -90,10 +92,5 @@ loading = {
 			loadingImage.destroy();
 			game.state.start('initMenu');
 		}
-	},
-
-	loadComplete: function(){
-		
-		//game.state.start('end');
 	},
 }
