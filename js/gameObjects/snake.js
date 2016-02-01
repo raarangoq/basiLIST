@@ -401,6 +401,8 @@ var isForOrb = true;
 
 
 function updateSnake(){
+	if(game.physics.arcade.isPaused)
+		return;
 
 	if(this.previous == '' && 
 		game.physics.arcade.distanceToXY(this,this.target_x,this.target_y) < 20 &&

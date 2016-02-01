@@ -58,7 +58,7 @@ function addPausePage2(){
 	page.addChild(text);
 
 	image = game.add.sprite(0, 300, 'heart');
-	image.animations.add('walk', [0, 1, 2], 8, true);
+	image.animations.add('walk', [0, 1, 2], 3, true);
     image.play('walk');
 	page.addChild(image);
 	text = game.add.text(50, 280, 

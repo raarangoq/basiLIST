@@ -42,7 +42,7 @@ lose = {
 
 	update: function(){
 		if(keyboard.enterKey()){
-			game.global.level = 1;
+//			game.global.level = 1;
 			game.global.is_playing = true;
 			game.state.start('levels');
 		}

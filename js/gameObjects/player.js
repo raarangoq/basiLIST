@@ -178,6 +178,9 @@ function toAttack(){
 
 // Se ejecutan las funciones del jugador, como moverse y atacar
 function updatePlayer(){
+	if(game.physics.arcade.isPaused)
+		return;
+
 	if(game.time.elapsedSince(this.start_time_hit) > 500 )
 		this.canMove = true;
 
