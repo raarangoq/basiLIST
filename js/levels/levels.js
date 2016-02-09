@@ -238,6 +238,12 @@ levels = {
 		player.body.velocity.setTo(0, 0);
 		win = true;
 		winImage.visible = true;
+
+		if(ScormProcessGetValue("cmi.core.score.raw") < game.global.level * 20){
+			ScormProcessSetValue("cmi.core.score.min", 0.0000);
+			ScormProcessSetValue("cmi.core.score.min", 100.0000);
+			ScormProcessSetValue("cmi.core.score.raw", game.global.level * 20);
+		}
 	}
 
 }
