@@ -3,14 +3,18 @@ function GUI(){
 
 	// Objetos y Atributos
 	
-	// Pause
-	this.pause_menu = addPause();
-
+	
 	// Barra de salud
 	this.health_bar = addHealthBar();
 
 	// conteo de enemigos
 	this.count_enemy = addCountEnemy();
+
+	this.score = addScore();
+
+	// Pause
+	this.pause_menu = addPause();
+
 
 	// Metodos
 

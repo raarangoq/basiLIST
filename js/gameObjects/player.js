@@ -89,6 +89,7 @@ function collectOrbPlayer(orb){
 		gui.updateHealthBar(this.health);
 	}
 	orb.newRandomPosition();
+	gui.score.up(15);
 }
 
 

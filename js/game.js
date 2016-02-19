@@ -3,7 +3,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 
 game.global = {
 	level : 1,
-	is_playing : false
+	is_playing : false,
+	score: 0,
 }
 
 game.state.add('boot', boot, true);

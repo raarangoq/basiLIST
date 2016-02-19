@@ -199,14 +199,3 @@ function ScormProcessSetValue(element, value){
     }
     
 }
-
-
-function doStart(){
-  ScormProcessInitialize();
-  API = getAPI();
-}
-
-function doUnload(){
-  ScormProcessSetValue("cmi.core.exit", "");
-  ScormProcessFinish();
-}

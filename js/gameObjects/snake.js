@@ -127,6 +127,8 @@ function destroySegment(){
 		this.destroyBody();
 	else
 		this.destroyTail();
+
+	gui.score.up(10);
 }
 
 

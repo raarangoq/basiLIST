@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-	<title>BasiLIST</title>
+	<title>Beat the BasiLIST</title>
 
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="js/phaser.js"></script>
@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="js/GUI/pause.js"></script>
 	<script type="text/javascript" src="js/GUI/pausepages.js"></script>
 	<script type="text/javascript" src="js/GUI/enemys_recount.js"></script>
+	<script type="text/javascript" src="js/GUI/score.js"></script>
 
 	<script type="text/javascript" src="js/levels/end.js"></script>
 	<script type="text/javascript" src="js/levels/initmenu.js"></script>
@@ -35,6 +36,22 @@
 
 	<script type="text/javascript" src="js/game.js"></script>
 
+	<script type="text/javascript">
+    	function doStart(){
+			ScormProcessInitialize();
+			API = getAPI();
+
+			ScormProcessSetValue("cmi.core.score.raw", "0");
+			ScormProcessSetValue("cmi.core.score.min", "0");
+			ScormProcessSetValue("cmi.core.score.max", "100");
+		}
+
+		function doUnload(){
+			ScormProcessFinish();
+		}
+
+
+    </script>
 
     <style type="text/css">
         @font-face{

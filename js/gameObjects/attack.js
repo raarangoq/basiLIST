@@ -7,6 +7,7 @@ function addAttack(){
 
 //	attack.player = player;
 	attack.frame = 3;
+	attack.renderable = false;
 
 	attack.changeAttackOrientation = changeAttackOrientation;
 	attack.setAttackFrame = setAttackFrame;

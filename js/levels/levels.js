@@ -201,8 +201,9 @@ levels = {
 				sound_snake.play();
 				segment.destroySegment();
 
-				if(snakeHeads.length <= 0)
+				if(snakeHeads.length <= 0){
 					this.winLevel();
+				}
 			}
 
 
@@ -239,10 +240,16 @@ levels = {
 		win = true;
 		winImage.visible = true;
 
-		if(ScormProcessGetValue("cmi.core.score.raw") < game.global.level * 20){
+		gui.score.up(50 * game.global.level);
+		gui.score.up(player.health * 2);
+		gui.score.setGlobalScore();
+
+		if(game.global.level == 5){
 			ScormProcessSetValue("cmi.core.score.min", 0.0000);
-			ScormProcessSetValue("cmi.core.score.min", 100.0000);
-			ScormProcessSetValue("cmi.core.score.raw", game.global.level * 20);
+	        ScormProcessSetValue("cmi.core.score.max", 100.0000);
+	        ScormProcessSetValue("cmi.core.score.raw", 100);
+	        if( ScormProcessGetValue("cmi.comments") < gui.score.value )
+	            ScormProcessSetValue("cmi.comments", gui.score.value);
 		}
 	}
 
