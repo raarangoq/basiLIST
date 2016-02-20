@@ -25,8 +25,15 @@ function addPause(){
 	pause_menu.showPage = showPausePage;
 
 	pause_menu.update = pauseMenuUpdate;
+	pause_menu.setDrawOrder = setPauseDrawOrder;
 
 	return pause_menu;
+}
+
+function setPauseDrawOrder(){
+	this.bringToTop();
+	for(var i=0; i<this.pages.length; i++)
+		this.pages[i].bringToTop();
 }
 
 

@@ -232,7 +232,7 @@ levels = {
 
 
 	render: function(){
-//text.text = red_orb.can_take;
+//game.debug.body(player);
 	},
 
 	winLevel: function(){

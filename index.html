@@ -3,9 +3,9 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Beat the BasiLIST</title>
-
+	
+	
 	<script type="text/javascript" src="js/phaser.min.js"></script>
-	<script type="text/javascript" src="js/phaser.js"></script>
 	<script type="text/javascript" src="js/scormFunctions.js"></script>
 
 	<script type="text/javascript" src="js/input.js"></script>
@@ -44,6 +44,8 @@
 			ScormProcessSetValue("cmi.core.score.raw", "0");
 			ScormProcessSetValue("cmi.core.score.min", "0");
 			ScormProcessSetValue("cmi.core.score.max", "100");
+
+			game.state.start('boot');
 		}
 
 		function doUnload(){
@@ -61,5 +63,7 @@
         	font-style: normal;
         }
     </style>
+
+    
 </head>
-<body onload="doStart();" onunload="doUnload();">
+<body onload="doStart(); " onunload="doUnload();">

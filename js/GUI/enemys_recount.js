@@ -18,7 +18,7 @@ function updateCountEnemy(){
 	}
 
 	addEnemyLine();
-
+	gui.pause_menu.setDrawOrder();
 }
 
 function addEnemyLine(){
