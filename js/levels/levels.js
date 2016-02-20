@@ -244,13 +244,13 @@ levels = {
 		gui.score.up(player.health * 2);
 		gui.score.setGlobalScore();
 
-		if(game.global.level == 5){
+		/*if(game.global.level == 5){
 			ScormProcessSetValue("cmi.core.score.min", 0.0000);
 	        ScormProcessSetValue("cmi.core.score.max", 100.0000);
 	        ScormProcessSetValue("cmi.core.score.raw", 100);
 	        if( ScormProcessGetValue("cmi.comments") < gui.score.value )
 	            ScormProcessSetValue("cmi.comments", gui.score.value);
-		}
+		}*/
 	}
 
 }

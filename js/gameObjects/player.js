@@ -21,7 +21,8 @@ function addPlayer(){
 
 	// Atributos variables
 	player.attack = player.addChild(addAttack());
-	
+	player.blood = player.addChild(addBlood());
+
 	player.canMove = true;
 	player.direction = "";
 	player.is_attacking = false;
@@ -98,6 +99,7 @@ function hitPlayer(segment){
 	this.start_time_hit = game.time.time;
 	this.health -= this.hitDamage;
 	gui.updateHealthBar(this.health);
+	this.blood.playBleed();
 
 	if(this.body.velocity.x == 0 && this.body.velocity.y == 0){
 		this.body.velocity.x = 150;
@@ -185,6 +187,7 @@ function updatePlayer(){
 	if(game.time.elapsedSince(this.start_time_hit) > 500 )
 		this.canMove = true;
 
+	this.blood.update();
 
 	this.movePlayer();
 	this.attacking();

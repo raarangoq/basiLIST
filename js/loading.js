@@ -54,6 +54,7 @@ loading = {
 
 		// La imagen del jugador
 		game.load.spritesheet('player', 'assets/pics/player.png', 70, 70);
+		game.load.spritesheet('blood', 'assets/pics/blood.png', 83, 69);
 
 		// Barra de salud del jugador
 		game.load.image('healthbar', 'assets/pics/healthbar.png');
