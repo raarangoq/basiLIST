@@ -5,7 +5,7 @@ function addScore() {
 		wordWrap: true, wordWrapWidth: 600, align: 'center'});
 	score.fixedToCamera = true;
 
-	score.value = 0;
+	score.value = game.global.score;
 
 	score.up = upScore;
 	score.set = setScore;
