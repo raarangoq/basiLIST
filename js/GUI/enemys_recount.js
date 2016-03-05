@@ -35,3 +35,12 @@ function addEnemyLine(){
 		enemys_counts[i].fixedToCamera = true;
 	}
 }
+
+function setEnemyRecountDrawOrder(){
+	for(var i=0; i<enemys_bars.length; i++){
+		enemys_bars[i].bringToTop();
+		enemys_animatios[i].bringToTop();
+		enemys_counts[i].bringToTop();
+	}
+
+}

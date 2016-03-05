@@ -25,8 +25,15 @@ function addHealthBar(){
 		health_bar.heart[i].frame = 2;
 	}
 
+	health_bar.setDrawOrder = setHealtBarDrawOrder;
 
 	return health_bar;
+}
+
+function setHealtBarDrawOrder(){
+	this.bringToTop();
+	for(var i=0; i<5; i++)
+		this.heart[i].bringToTop();
 }
 
 

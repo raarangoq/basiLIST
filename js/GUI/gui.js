@@ -27,6 +27,14 @@ function GUI(){
 	this.pauseKey = keyboard.addKey(Phaser.Keyboard.ENTER);
 	this.pauseKey.onDown.add(this.pauseGame, this);
 
+	this.setDrawOrder = setGuiDrawOrder;
 	
 	this.pauseGame();
+}
+
+function setGuiDrawOrder(){
+	this.health_bar.setDrawOrder();
+	setEnemyRecountDrawOrder();
+	this.score.bringToTop();
+	this.pause_menu.setDrawOrder();
 }
