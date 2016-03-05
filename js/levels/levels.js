@@ -110,6 +110,10 @@ levels = {
 			for(var i=0; i<snakeHeads.length; i++){ 
 				if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
 					snakeHeads[i].collectOrbSnake(red_orb);
+					if(snakeHeads[i].lengthSnake() >= 20){
+						sound_backgroud.destroy();
+						game.state.start('lose');
+					}
 				}
 			}
 
