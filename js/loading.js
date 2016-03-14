@@ -33,7 +33,7 @@ loading = {
 
 		game.load.image('end', 'assets/pics/end.png');
 		game.load.image('initmenu', 'assets/pics/initmenu.png');
-		game.load.image('lose', 'assets/pics/lose.png');
+		game.load.image('lose', 'assets/pics/lose2.png');
 		game.load.image('win', 'assets/pics/win.png');
 		game.load.image('pause', 'assets/pics/pause.png');
 		game.load.image('blankpause', 'assets/pics/blankpause.png');

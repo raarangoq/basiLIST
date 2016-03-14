@@ -30,6 +30,11 @@ lose = {
 		stairs = game.add.sprite(0, 0, 'stairs');
 		this.addLink();
 		image = game.add.sprite(0, 0, 'lose');
+		var textEnd = game.add.text(400, 500, 'Presiona ENTER para volver a jugar...',
+		{ font: "16pt ferney", fill: '#fff', stroke: '#000000', strokeThickness: 3,
+			wordWrap: true, wordWrapWidth: 600, align: 'center'});
+		textEnd.anchor.setTo(0.5, 0.5);
+		image.addChild(textEnd);
 		image.visible = false;
 
 		time = game.time.time;

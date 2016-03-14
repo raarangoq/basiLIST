@@ -72,7 +72,8 @@ function pauseGame(){
 			}
 			else{
 				this.pause_menu.visible = true;
-				game.physics.arcade.isPaused = true;this.pause_menu.showPage(0);
+				game.physics.arcade.isPaused = true;
+				this.pause_menu.showPage(0);
 			}
 		this.pause_menu.timeLastPause = game.time.now;
 		}
