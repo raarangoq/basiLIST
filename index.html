@@ -1,10 +1,10 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
 	<meta charset="UTF-8" />
 	<title>BasiLIST</title>
-	
-	
+
+
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="js/scormFunctions.js"></script>
 
@@ -27,7 +27,7 @@
 	<script type="text/javascript" src="js/levels/intro_video.js"></script>
 	<script type="text/javascript" src="js/levels/levels.js"></script>
 
-	<script type="text/javascript" src="js/levels/lose.js"></script>	
+	<script type="text/javascript" src="js/levels/lose.js"></script>
 	<script type="text/javascript" src="js/levels/win.js"></script>
 
 	<script type="text/javascript" src="js/loading.js"></script>
@@ -38,18 +38,18 @@
 
 	<script type="text/javascript">
     	function doStart(){
-			/*ScormProcessInitialize();
+			ScormProcessInitialize();
 			API = getAPI();
 
 			ScormProcessSetValue("cmi.core.score.raw", "0");
 			ScormProcessSetValue("cmi.core.score.min", "0");
 			ScormProcessSetValue("cmi.core.score.max", "100");
-			*/
+
 			game.state.start('boot');
 		}
 
 		function doUnload(){
-			//ScormProcessFinish();
+			ScormProcessFinish();
 		}
 
 
@@ -57,13 +57,13 @@
 
     <style type="text/css">
         @font-face{
-        	font-family: 'ferney'; 
+        	font-family: 'ferney';
         	src: url('assets/fonts/04B_03__.TTF');
         	font-weight: normal;
         	font-style: normal;
         }
     </style>
 
-    
+
 </head>
 <body onload="doStart(); " onunload="doUnload();">

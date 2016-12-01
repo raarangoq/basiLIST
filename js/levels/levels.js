@@ -37,7 +37,7 @@ levels = {
 		if(game.global.level == 5){
 			game.physics.enable(level, Phaser.Physics.ARCADE);
 			level.body.colliderWorldBounds = true;
-			level.body.setSize(1035, 870, 86, 83); 
+			level.body.setSize(1035, 870, 86, 83);
 		}
 
 
@@ -47,7 +47,7 @@ levels = {
 		// Funciones que se llaman al instanciar un Level
 		this.addFires();
 		this.addWalls();
-		
+
 		// Pueden existir varios orbes al mismo tiempo
 		red_orb = addOrb();
 		// El jugador
@@ -56,7 +56,7 @@ levels = {
 		// Se agrega la primer serpiente
 		snakeHeads = [];
 		this.addSnakes();
-		
+
 
 		// Las interfaces del juego
 		gui = new GUI();
@@ -107,7 +107,7 @@ levels = {
 		}
 		// Si alguna de las serpientes atrapan algún orbe
 		if(red_orb.can_take)
-			for(var i=0; i<snakeHeads.length; i++){ 
+			for(var i=0; i<snakeHeads.length; i++){
 				if( game.physics.arcade.overlap(snakeHeads[i], red_orb) ){
 					snakeHeads[i].collectOrbSnake(red_orb);
 					gui.setDrawOrder();
@@ -151,7 +151,7 @@ levels = {
 			pedestal = level.fires.create(position_pedestal[i], 84, 'pedestal');
 			game.physics.enable(pedestal, Phaser.Physics.ARCADE);
 			pedestal.body.colliderWorldBounds = true;
-			//pedestal.body.setSize(1035, 870, 86, 83); 
+			//pedestal.body.setSize(1035, 870, 86, 83);
 			pedestal.body.immovable = true;
 			fire = level.fires.create(position_pedestal[i] - 3, 59, 'fire');
 			fire.body.immovable = true;
@@ -174,7 +174,7 @@ levels = {
 	},
 
 	// Se edicionan los muros al juego
-	addWalls: function(){	
+	addWalls: function(){
 		// El ultimo piso no tiene muros (caida libre a los lados)
 		if(game.global.level == 5)
 			return;
@@ -198,9 +198,9 @@ levels = {
 		// No se debe permitir que el serpiente infrinja daño a un jugador que no puede moverse
 		if(player.canMove)
 			game.physics.arcade.collide(segment, player, this.snakeHitsPlayer);
-		
-			
-		// Cuando el ataque impacta a un segmento de serpiente	
+
+
+		// Cuando el ataque impacta a un segmento de serpiente
 		if(player.is_attacking)
 			if( game.physics.arcade.overlap(segment, player.attack) ){
 				sound_snake.play();
@@ -222,7 +222,7 @@ levels = {
 
 		if(game.global.level < 5)
 			game.state.start('win');
-		else 
+		else
 			game.state.start('end');
 	},
 
@@ -249,13 +249,13 @@ levels = {
 		gui.score.up(player.health * 2);
 		gui.score.setGlobalScore();
 
-		/*if(game.global.level == 5){
+		if(game.global.level == 5){
 			ScormProcessSetValue("cmi.core.score.min", 0.0000);
 	        ScormProcessSetValue("cmi.core.score.max", 100.0000);
 	        ScormProcessSetValue("cmi.core.score.raw", 100);
 	        if( ScormProcessGetValue("cmi.comments") < gui.score.value )
 	            ScormProcessSetValue("cmi.comments", gui.score.value);
-		}*/
+		}
 	}
 
 }
